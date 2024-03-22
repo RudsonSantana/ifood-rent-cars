@@ -1,15 +1,15 @@
 import { Router, Request, Response } from "express";
-import { vehicleController } from "../controllers/VehicleController";
-import { employeeAuthCookieMiddleware } from "../middlewares/employee/EmployeeAuthCookieMiddleware";
-import { authorizationByManagerMiddleware } from "../middlewares/employee/AuthorizationForManagerMiddleware";
-import { authorizationByAttendantMiddleware } from "../middlewares/employee/AuthorizationForAttendantMiddleware";
-import { validPlateFormatMiddleware } from "../middlewares/vehicle/ValidatePlateFormatMiddleware";
-import { validateVehicleCategoryMiddleware } from "../middlewares/vehicle/ValidateVehicleCategoryMiddleware";
-import { existingVehicleMiddleware } from "../middlewares/vehicle/ExistingVehicleMiddleware";
-import { validateVehicleParamsPlateMiddleware } from "../middlewares/vehicle/ValidateVehicleParamsPlateMiddleware";
+import { createVehicleController } from "../controllers/vehicle_controllers/CreateVehicleController";
+import { findAllVehicleController } from "../controllers/vehicle_controllers/FindAllVehicleController";
+import { findByPlateVehicleController } from "../controllers/vehicle_controllers/FindByPlateVehicleController";
+import { employeeAuthCookieMiddleware } from "../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware";
+import { authorizationByManagerMiddleware } from "../middlewares/employee_middlewares/AuthorizationForManagerMiddleware";
+import { authorizationByAttendantMiddleware } from "../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware";
+import { validPlateFormatMiddleware } from "../middlewares/vehicle_middlewares/ValidatePlateFormatMiddleware";
+import { validateVehicleCategoryMiddleware } from "../middlewares/vehicle_middlewares/ValidateVehicleCategoryMiddleware";
+import { existingVehicleMiddleware } from "../middlewares/vehicle_middlewares/ExistingVehicleMiddleware";
+import { validateVehicleParamsPlateMiddleware } from "../middlewares/vehicle_middlewares/ValidateVehicleParamsPlateMiddleware";
 import path from "path"
-
-
 
 const vehicleRoutes = Router();
 
@@ -25,21 +25,21 @@ vehicleRoutes.post('/vehicles',
     validPlateFormatMiddleware.validate,
     existingVehicleMiddleware.check,
     validateVehicleCategoryMiddleware.validate,
-    vehicleController.create
+    createVehicleController.create
 );
 
 // Get
 vehicleRoutes.get('/vehicles/all',
     employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
-    vehicleController.findAll
+    findAllVehicleController.findAll
 );
 
 vehicleRoutes.get('/vehicles/:plate',
     employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
     validateVehicleParamsPlateMiddleware.validate,
-    vehicleController.findByPlate
+    findByPlateVehicleController.findByPlate
 );
 
 export { vehicleRoutes };

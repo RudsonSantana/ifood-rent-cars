@@ -1,7 +1,6 @@
 import { ICustomerRepository, ICustomer } from '../../../../app/repositories/customerRepository';
 import { Customer } from '../models/customer';
 import bcrypt from 'bcrypt';
-import { LicenseCategory } from '../models/licenseCategory';
 
 class CustomerRepository implements ICustomerRepository {
   async findAll(): Promise<ICustomer[]> {

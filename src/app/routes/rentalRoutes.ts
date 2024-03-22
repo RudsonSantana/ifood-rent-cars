@@ -1,12 +1,12 @@
 import { Router, Request, Response } from "express";
-import { rentalController } from "../controllers/RentalController";
-import { employeeAuthCookieMiddleware } from "../middlewares/employee/EmployeeAuthCookieMiddleware";
-import { existingRentalMiddleware } from "../middlewares/ExistingRentalMiddleware";
-import { authorizationByAttendantMiddleware } from "../middlewares/employee/AuthorizationForAttendantMiddleware";
-import { customerAuthCookieMiddleware } from "../middlewares/customer/CustomerAuthCookieMiddleware";
+import { rentalReserveController } from "../controllers/rental_controllers/RentalReserveController";
+import { rentalStartController } from "../controllers/rental_controllers/RentalStartController";
+import { rentalCompleteController } from "../controllers/rental_controllers/RentalCompleteController";
+import { employeeAuthCookieMiddleware } from "../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware";
+import { existingRentalMiddleware } from "../middlewares/rental_middlewares/ExistingRentalMiddleware";
+import { authorizationByAttendantMiddleware } from "../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware";
+import { customerAuthCookieMiddleware } from "../middlewares/customer_middlewares/CustomerAuthCookieMiddleware";
 import path from 'path';
-
-
 
 const rentalRoutes = Router();
 
@@ -16,23 +16,26 @@ rentalRoutes.get('/rentals/reserve', (req: Request, res: Response) => {
     res.render(caminho);
 });
 
-// Post
-rentalRoutes.post('/rentals/reserve', customerAuthCookieMiddleware.auth, (req: Request, res: Response) => {
-    rentalController.reserveRental
+rentalRoutes.get('/rentals/start', (req: Request, res: Response) => {
+    const caminho = path.resolve(__dirname, '..', 'views', 'rentalsStart.ejs');
+    res.render(caminho);
 });
 
-rentalRoutes.post('/rentals/start',
-    employeeAuthCookieMiddleware.auth,
-    authorizationByAttendantMiddleware.authorization,
+// Post
+rentalRoutes.post('/rentals/reserve', customerAuthCookieMiddleware.auth, (req: Request, res: Response) => {
+    rentalReserveController.reserve
+});
+
+rentalRoutes.post('/rentals/start', employeeAuthCookieMiddleware.auth, (req: Request, res: Response) => {
     existingRentalMiddleware.check,
-    rentalController.startRental
-);
+    rentalStartController.start
+});
 
 rentalRoutes.post('/rentals/complete',
     employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
     existingRentalMiddleware.check,
-    rentalController.completeRental
+    rentalCompleteController.complete
 );
 
 export { rentalRoutes };

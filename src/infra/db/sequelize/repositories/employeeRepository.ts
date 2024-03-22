@@ -1,4 +1,3 @@
-import { log } from 'handlebars';
 import { IEmployee, IEmployeeRepository } from '../../../../app/repositories/employeeRepository';
 import { Employee } from '../models/employee';
 import { EmployeePosition } from '../models/employeePosition';
@@ -129,9 +128,9 @@ class EmployeeRepository implements IEmployeeRepository {
     console.log(employee);
   }
 
-  async passwordUpdate(customer: IEmployee, newPassword: string, confirmNewPassword: string): Promise<void> {
+  async passwordUpdate(employee: IEmployee, newPassword: string, confirmNewPassword: string): Promise<void> {
     if (newPassword === confirmNewPassword) {
-      const employeeUpdate = await this.findById(customer.id);
+      const employeeUpdate = await this.findById(employee.id);
 
       if (employeeUpdate) {
         employeeUpdate.password = confirmNewPassword;
@@ -141,14 +140,14 @@ class EmployeeRepository implements IEmployeeRepository {
     }
   }
 
-  private async updateEmployee(updatedCustomer: IEmployee): Promise<void> {
+  private async updateEmployee(updatedEmployee: IEmployee): Promise<void> {
     await Employee.update(
       {
-        password: updatedCustomer.password
+        password: updatedEmployee.password
       },
       {
         where: {
-          id: updatedCustomer.id
+          id: updatedEmployee.id
         }
       }
     );

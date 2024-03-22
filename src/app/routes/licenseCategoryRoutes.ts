@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { licenseCategoryController } from '../controllers/LicenseCategoryController';
-import { employeeAuthCookieMiddleware } from '../middlewares/employee/EmployeeAuthCookieMiddleware';
-import { authorizationByManagerMiddleware } from '../middlewares/employee/AuthorizationForManagerMiddleware';
-import { validateLicenseCategoryParamsIdMiddleware } from '../middlewares/ValidateLicenseCategoryParamsIdMiddleware';
-
+import { createLicenseCategoryController } from '../controllers/license_category_controllers/CreateLicenseCategoryController';
+import { findAllLicenseCategoryController } from '../controllers/license_category_controllers/FindAllLicenseCategoryController';
+import { findByIdLicenseCategoryController } from '../controllers/license_category_controllers/FindByIdLicenseCategoryController';
+import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
+import { authorizationByManagerMiddleware } from '../middlewares/employee_middlewares/AuthorizationForManagerMiddleware';
+import { validateLicenseCategoryParamsIdMiddleware } from '../middlewares/license_category_middlewares/ValidateLicenseCategoryParamsIdMiddleware';
 
 const licenseCategoryRoutes = Router();
 
@@ -11,21 +12,21 @@ const licenseCategoryRoutes = Router();
 licenseCategoryRoutes.post('/licenseCategory',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
-    licenseCategoryController.create
+    createLicenseCategoryController.create
 );
 
 //Get
 licenseCategoryRoutes.get('/licenseCategory',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
-    licenseCategoryController.findAll
+    findAllLicenseCategoryController.findAll
 );
 
 licenseCategoryRoutes.get('/licenseCategory/:id',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
     validateLicenseCategoryParamsIdMiddleware.validate,
-    licenseCategoryController.findById
+    findByIdLicenseCategoryController.findById
 );
 
 export { licenseCategoryRoutes };

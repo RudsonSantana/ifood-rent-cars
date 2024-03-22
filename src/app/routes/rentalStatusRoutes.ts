@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { rentalStatusController } from '../controllers/RentalStatusController';
-import { employeeAuthCookieMiddleware } from '../middlewares/employee/EmployeeAuthCookieMiddleware';
-import { authorizationByManagerMiddleware } from '../middlewares/employee/AuthorizationForManagerMiddleware';
-import { authorizationByAttendantMiddleware } from '../middlewares/employee/AuthorizationForAttendantMiddleware';
-import { validateRentalStatusParamsIdMiddleware } from '../middlewares/ExistingRentalStatusMiddleware';
-
+import { createRentalStatusController } from '../controllers/rental_status_controllers/CreateRentalStatusController';
+import { findAllRentalStatusController } from '../controllers/rental_status_controllers/FindAllRentalStatusController';
+import { findByIdRentalStatusController } from '../controllers/rental_status_controllers/FindByIdRentalStatusController';
+import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
+import { authorizationByManagerMiddleware } from '../middlewares/employee_middlewares/AuthorizationForManagerMiddleware';
+import { authorizationByAttendantMiddleware } from '../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware';
+import { validateRentalStatusParamsIdMiddleware } from '../middlewares/rental_status_middlewares/ExistingRentalStatusMiddleware';
 
 const rentalStatusRoutes = Router();
 
@@ -12,21 +13,21 @@ const rentalStatusRoutes = Router();
 rentalStatusRoutes.post('/rentalStatus',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
-    rentalStatusController.create
+    createRentalStatusController.create
 );
 
 //Get
 rentalStatusRoutes.get('/rentalStatus',
     employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
-    rentalStatusController.findAll
+    findAllRentalStatusController.findAll
 );
 
 rentalStatusRoutes.get('/rentalStatus/:id',
     employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
     validateRentalStatusParamsIdMiddleware.validate,
-    rentalStatusController.findById
+    findByIdRentalStatusController.findById
 );
 
 export { rentalStatusRoutes };

@@ -1,13 +1,15 @@
 import { Router, Request, Response } from 'express';
-import { customerController } from '../controllers/CustomerController';
-import { validateCustomerCpfMiddleware } from '../middlewares/customer/ValidateCustomerCpfMiddleware';
-import { validateCustomerEmailMiddleware } from '../middlewares/customer/ValidateCustomerEmailMiddleware';
-import { validateLicenseCategoryMiddleware } from '../middlewares/ValidateLicenseCategoryMiddleware';
-import { authMiddleware } from '../middlewares/AuthMiddleware';
-import { authorizationByAttendantMiddleware } from '../middlewares/employee/AuthorizationForAttendantMiddleware';
-import { validateCustomerParamsIdMiddleware } from '../middlewares/customer/ValidateCustomerParamsIdMiddleware';
-import { employeeAuthCookieMiddleware } from '../middlewares/employee/EmployeeAuthCookieMiddleware';
+import { findByIdCustomerController } from '../controllers/customer_controllers/FindByIdCustomerController';
+import { findAllCustomerController } from '../controllers/customer_controllers/FindAllCustomerController';
+import { createCustomerController } from '../controllers/customer_controllers/CreateCustomerController';
+import { validateCustomerCpfMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerCpfMiddleware';
+import { validateCustomerEmailMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerEmailMiddleware';
+import { validateLicenseCategoryMiddleware } from '../middlewares/license_category_middlewares/ValidateLicenseCategoryMiddleware';
+import { authorizationByAttendantMiddleware } from '../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware';
+import { validateCustomerParamsIdMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerParamsIdMiddleware';
+import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
 import path from 'path';
+import { customerAuthCookieMiddleware } from '../middlewares/customer_middlewares/CustomerAuthCookieMiddleware';
 
 
 const customerRoutes = Router();
@@ -22,20 +24,20 @@ customerRoutes.post('/customers',
     validateCustomerCpfMiddleware.validate,
     validateCustomerEmailMiddleware.validate,
     validateLicenseCategoryMiddleware.validate,
-    customerController.create
+    createCustomerController.create
 );
 
 // Get
 customerRoutes.get('/customers/all',
     employeeAuthCookieMiddleware.auth,
-    authorizationByAttendantMiddleware.authorization,
-    customerController.findAll
+    // authorizationByAttendantMiddleware.authorization,
+    findAllCustomerController.findAll
 );
 
 customerRoutes.get('/customers/:id',
-    employeeAuthCookieMiddleware.auth,
+    customerAuthCookieMiddleware.auth,
     validateCustomerParamsIdMiddleware.validate,
-    customerController.findById
+    findByIdCustomerController.findById
 );
 
 export { customerRoutes };

@@ -1,5 +1,5 @@
 {
-  "name": "Aluguel-veiculos",
+  "name": "ifood-rent-cars",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -25,7 +25,8 @@
     "mysql2": "^3.9.1",
     "sequelize": "^6.37.1",
     "sequelize-cli": "^6.6.2",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "winston": "^3.12.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Reserva de Veículo</title>
+</head>
+
+<body>
+    <h1>Iniciar Reserva</h1>
+    <form action="/rentals/start" method="post">
+        <section>
+            <label for="customer-id"><strong>Id do Cliente</strong></label>
+            <br>
+            <input id="customer-id" name="customerId" type="text" autocomplete="customer-id" required>
+        </section>
+        <br>
+        <section>
+            <label for="start-date"><strong>Data de Inicio</strong></label>
+            <br>
+            <input id="start-date" name="startDate" type="date" autocomplete="start-date" required>
+        </section>
+        <br>
+        <br>
+        <button type="submit">Cadastrar</button>
+    </form>
+    <br>
+    <form action="/logout/employee" method="get">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+
+</html>
