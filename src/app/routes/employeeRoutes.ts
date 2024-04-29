@@ -11,20 +11,21 @@ import { authorizationByManagerMiddleware } from '../middlewares/employee_middle
 import { authorizationByAttendantMiddleware } from '../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware';
 import { validateEmployeeParamsIdMiddleware } from '../middlewares/employee_middlewares/ValidateEmployeeParamsIdMiddleware';
 import path from 'path';
-import { createTemplate } from '../helpers/createTemplate';
-import handlebars from 'handlebars';
 
 const employeeRoutes = Router();
 
 // Post
-employeeRoutes.get('/employee', (req: Request, res: Response) => {
-    const caminho = path.resolve(__dirname, '..', 'views', 'employee.ejs');
-    res.render(caminho);
-});
+employeeRoutes.get('/employee',
+    employeeAuthCookieMiddleware.auth,
+    authorizationByManagerMiddleware.authorization,
+    (req: Request, res: Response) => {
+        const caminho = path.resolve(__dirname, '..', 'views', 'employee.ejs');
+        res.render(caminho);
+    });
 
 employeeRoutes.post('/employees',
     employeeAuthCookieMiddleware.auth,
-    // authorizationByManagerMiddleware.authorization,
+    authorizationByManagerMiddleware.authorization,
     validateEmployeeCpfMiddleware.validate,
     validateEmployeeEmailMiddleware.validate,
     validateLicenseCategoryMiddleware.validate,
@@ -34,14 +35,14 @@ employeeRoutes.post('/employees',
 
 employeeRoutes.get('/employees/all',
     employeeAuthCookieMiddleware.auth,
-    // authorizationByManagerMiddleware.authorization,
+    authorizationByManagerMiddleware.authorization,
     findAllEmployeeController.findAll
 );
 
 employeeRoutes.get('/employees/:id',
     employeeAuthCookieMiddleware.auth,
     validateEmployeeParamsIdMiddleware.validate,
-    // authorizationByAttendantMiddleware.authorization,
+    authorizationByAttendantMiddleware.authorization,
     findByIdEmployeeController.findById
 );
 

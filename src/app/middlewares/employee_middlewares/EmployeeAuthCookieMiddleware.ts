@@ -8,8 +8,7 @@ class EmployeeAuthCookieMiddleware {
             const token = req.cookies.token
 
             if (!token) {
-                console.log('Token não encontrado');
-                return res.redirect('/login/employee');
+                res.redirect('/login/employee');
             }
 
             const secret = process.env.JWT_SECRET!;
@@ -17,12 +16,10 @@ class EmployeeAuthCookieMiddleware {
             try {
                 const decoded = jwt.verify(token, secret);
                 if (!decoded) {
-                    console.log('Token inválido');
-                    return res.redirect('/login/employee');
+                    res.redirect('/login/employee');
                 }
             } catch (error) {
-                console.log('Erro ao verificar token:', error);
-                return res.redirect('/login/employee');
+                res.redirect('/login/employee');
             }
             
             req.headers = {

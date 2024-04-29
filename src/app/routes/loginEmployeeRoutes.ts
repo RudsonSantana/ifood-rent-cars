@@ -6,10 +6,11 @@ import path from 'path';
 const loginEmployeeRoutes = Router();
 
 //Get 
-loginEmployeeRoutes.get('/login/employee', (req: Request, res: Response) => {
-    const caminho = path.resolve(__dirname, '..', 'views', 'loginEmployee.ejs');
-    res.render(caminho);
-});
+loginEmployeeRoutes.get('/login/employee',
+    (req: Request, res: Response) => {
+        const caminho = path.resolve(__dirname, '..', 'views', 'loginEmployee.ejs');
+        res.render(caminho);
+    });
 
 //Post
 loginEmployeeRoutes.post('/login/employee',

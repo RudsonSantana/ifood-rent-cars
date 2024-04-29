@@ -5,10 +5,9 @@ import { AppError } from "../../errors/AppError";
 class CustomerAuthCookieMiddleware {
     async auth(req: Request, res: Response, next: NextFunction) {
         try {
-            const token = req.cookies.token.accessToken
+            const token = req.cookies.token
 
             if (!token) {
-                console.log('token 11');
                 return res.redirect('/login/customer');
             }
 
@@ -17,11 +16,9 @@ class CustomerAuthCookieMiddleware {
             try {
                 const decoded = jwt.verify(token, secret);
                 if (!decoded) {
-                    console.log('token 22');
                     return res.redirect('/login/customer');
                 }
             } catch (error) {
-                console.log('token 33');
                 return res.redirect('/login/customer');
             }
 

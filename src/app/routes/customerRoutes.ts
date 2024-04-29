@@ -10,15 +10,17 @@ import { validateCustomerParamsIdMiddleware } from '../middlewares/customer_midd
 import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
 import path from 'path';
 import { customerAuthCookieMiddleware } from '../middlewares/customer_middlewares/CustomerAuthCookieMiddleware';
+import { customerTokenVerificationMiddleware } from '../middlewares/customer_middlewares/CustomerTokenVerificationMiddleware';
 
 
 const customerRoutes = Router();
 
 //Post
-customerRoutes.get('/customer', (req: Request, res: Response) => {
-    const caminho = path.resolve(__dirname, '..', 'views', 'customer.ejs');
-    res.render(caminho);
-});
+customerRoutes.get('/customer',
+    (req: Request, res: Response) => {
+        const caminho = path.resolve(__dirname, '..', 'views', 'customer.ejs');
+        res.render(caminho);
+    });
 
 customerRoutes.post('/customers',
     validateCustomerCpfMiddleware.validate,
@@ -30,7 +32,7 @@ customerRoutes.post('/customers',
 // Get
 customerRoutes.get('/customers/all',
     employeeAuthCookieMiddleware.auth,
-    // authorizationByAttendantMiddleware.authorization,
+    authorizationByAttendantMiddleware.authorization,
     findAllCustomerController.findAll
 );
 

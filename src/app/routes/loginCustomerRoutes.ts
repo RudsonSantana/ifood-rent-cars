@@ -6,10 +6,11 @@ import path from 'path';
 const loginCustomerRoutes = Router();
 
 //Get
-loginCustomerRoutes.get('/login/customer', (req: Request, res: Response) => {
-    const caminho = path.resolve(__dirname, '..', 'views', 'loginCustomer.ejs');
-    res.render(caminho);
-});
+loginCustomerRoutes.get('/login/customer',
+    (req: Request, res: Response) => {
+        const caminho = path.resolve(__dirname, '..', 'views', 'loginCustomer.ejs');
+        res.render(caminho);
+    });
 
 //Post
 loginCustomerRoutes.post('/login/customer',
