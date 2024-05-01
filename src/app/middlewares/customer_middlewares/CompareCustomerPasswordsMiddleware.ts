@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
 import { AppError } from '../../errors/AppError';
 import { encrypt } from '../../helpers/cryptHelper';
+import { StatusCodes } from 'http-status-codes';
 
 class CompareCustomerPasswordsMiddleware {
     async compare(req: Request, res: Response, next: NextFunction) {
@@ -14,15 +15,15 @@ class CompareCustomerPasswordsMiddleware {
             const customer = await customerRepository.findById(id);
 
             if (newPassword != confirmNewPassword) {
-                res.status(400).json({ error: 'Senha Inválida!' });
+                res.status(StatusCodes.BAD_REQUEST).json({ error: 'Senha Inválida!' });
             }
 
             else if (encryptNewPassword === customer.password) {
-                res.status(400).json({ error: 'Senha Inválida!' });
+                res.status(StatusCodes.BAD_REQUEST).json({ error: 'Senha Inválida!' });
             }
 
             else if (encryptConfirmNewPassword === customer.password) {
-                res.status(400).json({ error: 'Senha Inválida!' });
+                res.status(StatusCodes.BAD_REQUEST).json({ error: 'Senha Inválida!' });
             }
 
             else {
@@ -30,7 +31,7 @@ class CompareCustomerPasswordsMiddleware {
             }
         } catch (error) {
             console.error(AppError);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

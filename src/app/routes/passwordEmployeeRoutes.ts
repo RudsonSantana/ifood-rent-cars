@@ -3,10 +3,11 @@ import { forgotEmployeePasswordController } from '../controllers/password_contro
 import { changeEmployeePasswordController } from '../controllers/password_controllers/ChangeEmployeePasswordController';
 import { employeeForgottenPasswordRequestMiddleware } from '../middlewares/employee_middlewares/EmployeeForgottenPasswordRequestMiddleware';
 import { passwordAuthMiddleware } from '../middlewares/password_middlewares/PasswordAuthMiddleware';
-import { employeeTokenVerificationMiddleware } from '../middlewares/employee_middlewares/EmployeeTokenVerificationMiddleware';
+import { employeePasswordTokenVerificationMiddleware } from '../middlewares/employee_middlewares/EmployeePasswordTokenVerificationMiddleware';
 import { compareEmployeePasswordsMiddleware } from '../middlewares/employee_middlewares/CompareEmployeePasswordsMiddleware';
 import { validateCustomerParamsIdMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerParamsIdMiddleware';
 import path from 'path';
+
 
 const passwordEmployeeRoutes = Router();
 
@@ -31,7 +32,7 @@ passwordEmployeeRoutes.post('/password/employee/forgot',
 passwordEmployeeRoutes.put('/password/employee/change/:id',
     passwordAuthMiddleware.execute,
     validateCustomerParamsIdMiddleware.validate,
-    employeeTokenVerificationMiddleware.execute,
+    employeePasswordTokenVerificationMiddleware.execute,
     compareEmployeePasswordsMiddleware.compare,
     changeEmployeePasswordController.changeEmployeePassword
 );

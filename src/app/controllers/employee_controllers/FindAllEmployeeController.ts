@@ -3,12 +3,14 @@ import path from 'path';
 import handlebars from 'handlebars';
 import { createTemplate } from "../../helpers/createTemplate";
 import { employeeFindAllService } from '../../services/employee_services/EmployeeFindAllService';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class FindAllEmployeeController {
     async findAll(req: Request, res: Response, next: NextFunction) {
         try {
             const employees = await employeeFindAllService.findAll();
-            res.status(200).format({
+            res.status(StatusCodes.OK).format({
                 'text/html': () => {
                     const caminhoTemplate = createTemplate(path.resolve(
                         __dirname,
@@ -31,8 +33,8 @@ class FindAllEmployeeController {
 
             })
         } catch (error) {
-            console.error(error);
-            res.status(500).send({ error: 'Erro interno do servidor' });
+            console.error(AppError);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { employeeRepository } from '../../../infra/db/sequelize/repositories/employeeRepository';
 import { AppError } from '../../errors/AppError';
 import { employeePositionRepository } from '../../../infra/db/sequelize/repositories/employeePositionRepository';
+import { StatusCodes } from 'http-status-codes';
 
 class AuthorizationByAttendantMiddleware {
     async authorization(req: Request, res: Response, next: NextFunction) {
@@ -18,21 +19,21 @@ class AuthorizationByAttendantMiddleware {
             const position = await employeePositionRepository.findById(positionDecoded);
 
             if (!employee || !position) {
-                return res.status(400).send({ error: 'Usuário não autorizado!' });
+                return res.status(StatusCodes.UNAUTHORIZED).send({ error: 'Usuário não autorizado!' });
             }
 
             if (employee.position !== positionDecoded || employee.position !== position.id) {
-                return res.status(400).send({ error: 'Usuário não autorizado!' });
+                return res.status(StatusCodes.UNAUTHORIZED).send({ error: 'Usuário não autorizado!' });
             }
 
             if (position.name.toUpperCase() !== 'MANAGER' && position.name.toUpperCase() !== 'ATTENDANT') {
-                return res.status(400).send({ error: 'Usuário não autorizado!' });
+                return res.status(StatusCodes.UNAUTHORIZED).send({ error: 'Usuário não autorizado!' });
             }
 
             next();
         } catch (error) {
             console.error(AppError);
-            res.status(500).send({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

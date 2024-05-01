@@ -10,7 +10,6 @@ import { validateCustomerParamsIdMiddleware } from '../middlewares/customer_midd
 import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
 import path from 'path';
 import { customerAuthCookieMiddleware } from '../middlewares/customer_middlewares/CustomerAuthCookieMiddleware';
-import { customerTokenVerificationMiddleware } from '../middlewares/customer_middlewares/CustomerTokenVerificationMiddleware';
 
 
 const customerRoutes = Router();

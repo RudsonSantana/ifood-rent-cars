@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../../errors/AppError';
+import { StatusCodes } from 'http-status-codes';
 
 class ValidPlateFormatMiddleware {
     async validate(req: Request, res: Response, next: NextFunction) {
@@ -14,13 +15,13 @@ class ValidPlateFormatMiddleware {
             };
 
             if (!validPlateFormat(plate)) {
-                return res.status(400).json({ error: 'Formato de placa inválido' });
+                return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Formato de placa inválido' });
             }
 
             next();
         } catch (error) {
             console.error(AppError);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

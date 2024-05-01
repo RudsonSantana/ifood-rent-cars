@@ -9,20 +9,20 @@ const employeePositionRoutes = Router();
 
 //Post
 employeePositionRoutes.post('/employeePosition',
-employeeAuthCookieMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
     createEmployeePositionController.create
 );
 
 //Get
 employeePositionRoutes.get('/employeePosition',
-employeeAuthCookieMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
     findAllEmployeePositionController.findAll
 );
 
 employeePositionRoutes.get('/employeePosition/:id',
-employeeAuthCookieMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
     findByIdEmployeePositionController.findById
 );

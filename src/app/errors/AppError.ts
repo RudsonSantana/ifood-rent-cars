@@ -4,7 +4,7 @@ export class AppError {
   private _message: string;
   private _status: number;
 
-  constructor(message: string, status: number = StatusCodes.BAD_REQUEST) {
+  constructor(message: string, status: number = StatusCodes.INTERNAL_SERVER_ERROR) {
     this._message = message;
     this._status = status;
   }

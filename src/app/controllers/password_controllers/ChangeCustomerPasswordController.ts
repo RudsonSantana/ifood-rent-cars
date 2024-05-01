@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { customerFindByIdService } from '../../services/customer_services/CustomerFindByIdService';
 import { customerPasswordUpdateService } from '../../services/customer_services/CustomerPasswordUpdateService';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class ChangeCustomerPasswordController {
     async changeCustomerPassword(req: Request, res: Response, next: NextFunction) {
@@ -12,17 +14,17 @@ class ChangeCustomerPasswordController {
 
             if (customer) {
                 await customerPasswordUpdateService.passwordUpdate(id, newPassword, confirmNewPassword);
-                res.status(200).send({ message: 'Senha atualizada com sucesso!' });
+                res.status(StatusCodes.OK).send({ message: 'Senha atualizada com sucesso!' });
             }
 
             if (!customer) {
-                res.status(404).send({ error: "Usuário não encontrado" });
+                res.status(StatusCodes.NOT_FOUND).send({ error: "Usuário não encontrado" });
             }
 
             next();
         } catch (error) {
-            console.error(error);
-            res.status(500).send({ error: 'Erro interno do servidor' });
+            console.error(AppError);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { employeePositionFindByIdService } from '../../services/employee_position_services/EmployeePositionFindByIdService';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class FindByIdEmployeePositionController {
     async findById(req: Request, res: Response, next: NextFunction) {
@@ -8,14 +10,14 @@ class FindByIdEmployeePositionController {
             const employeePosition = await employeePositionFindByIdService.findById(id);
 
             if (employeePosition) {
-                res.send(employeePosition);
+                res.status(StatusCodes.OK).send(employeePosition);
             } else {
-                res.status(404).send({ error: 'Licensa não encontrada' });
+                res.status(StatusCodes.NOT_FOUND).send({ error: 'Licensa não encontrada' });
             }
 
         } catch (error) {
-            console.error(error);
-            res.status(500).send({ error: 'Erro interno do servidor' });
+            console.error(AppError);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

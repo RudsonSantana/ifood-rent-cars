@@ -3,10 +3,11 @@ import { forgotCustomerPasswordController } from '../controllers/password_contro
 import { changeCustomerPasswordController } from '../controllers/password_controllers/ChangeCustomerPasswordController';
 import { customerForgottenPasswordRequestMiddleware } from '../middlewares/customer_middlewares/CustomerForgottenPasswordRequestMiddleware';
 import { passwordAuthMiddleware } from '../middlewares/password_middlewares/PasswordAuthMiddleware';
-import { customerTokenVerificationMiddleware } from '../middlewares/customer_middlewares/CustomerTokenVerificationMiddleware';
+import { customerPasswordTokenVerificationMiddleware } from '../middlewares/customer_middlewares/CustomerPasswordTokenVerificationMiddleware';
 import { compareCustomerPasswordsMiddleware } from '../middlewares/customer_middlewares/CompareCustomerPasswordsMiddleware';
 import { validateCustomerParamsIdMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerParamsIdMiddleware';
 import path from 'path';
+
 
 const passwordCustomerRoutes = Router();
 
@@ -28,7 +29,7 @@ passwordCustomerRoutes.post('/password/customer/forgot',
 passwordCustomerRoutes.put('/password/customer/change/:id',
     passwordAuthMiddleware.execute,
     validateCustomerParamsIdMiddleware.validate,
-    customerTokenVerificationMiddleware.execute,
+    customerPasswordTokenVerificationMiddleware.execute,
     compareCustomerPasswordsMiddleware.compare,
     changeCustomerPasswordController.changeCustomerPassword
 );

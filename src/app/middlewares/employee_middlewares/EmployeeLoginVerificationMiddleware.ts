@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { employeeRepository } from "../../../infra/db/sequelize/repositories/employeeRepository";
 import { encrypt } from '../../helpers/cryptHelper';
 import { AppError } from '../../errors/AppError';
+import { StatusCodes } from 'http-status-codes';
 
 class EmployeeLoginVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
@@ -11,11 +12,11 @@ class EmployeeLoginVerificationMiddleware {
             const employee = await employeeRepository.findByEmail(email);
 
             if (!employee) {
-                res.redirect('/login/employee');
+                res.status(StatusCodes.UNAUTHORIZED).redirect('/login/employee');
             }
 
             else if (employee.password != passwordProvided) {
-                res.redirect('/login/employee');
+                res.status(StatusCodes.UNAUTHORIZED).redirect('/login/employee');
             }
 
             else {
@@ -23,7 +24,7 @@ class EmployeeLoginVerificationMiddleware {
             }
         } catch (error) {
             console.error(AppError);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

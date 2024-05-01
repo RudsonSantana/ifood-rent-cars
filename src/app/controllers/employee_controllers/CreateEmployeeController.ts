@@ -5,6 +5,8 @@ import { employeeCreateService } from '../../services/employee_services/Employee
 import path from 'path';
 import handlebars from 'handlebars';
 import { createTemplate } from "../../helpers/createTemplate";
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class CreateEmployeeController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -12,7 +14,7 @@ class CreateEmployeeController {
       const { name, cpf, email, password, phone, licenseCategory, position } = req.body;
 
       if (!name || !cpf || !email || !password || !phone || !licenseCategory || !position) {
-        res.status(400).send({ error: 'Necessário fornecer todos os dados' });
+        res.status(StatusCodes.UNPROCESSABLE_ENTITY).send({ error: 'Necessário fornecer todos os dados' });
         return next();
       }
 
@@ -31,7 +33,7 @@ class CreateEmployeeController {
           licenseCategory: habilitation.id,
           position: employeePosition.id
         });
-        res.status(201).format({
+        res.status(StatusCodes.CREATED).format({
           'text/html': () => {
             const caminhoTemplate = createTemplate(path.resolve(
                 __dirname,
@@ -61,8 +63,8 @@ class CreateEmployeeController {
         });
       }
     } catch (error) {
-      console.error(error);
-      res.status(500).send({ error: 'Erro interno do servidor' });
+      console.error(AppError);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

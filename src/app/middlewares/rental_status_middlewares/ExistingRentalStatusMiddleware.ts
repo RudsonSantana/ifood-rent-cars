@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { rentalStatusRepository } from '../../../infra/db/sequelize/repositories/rentalStatusRepository';
 import { AppError } from '../../errors/AppError';
+import { StatusCodes } from 'http-status-codes';
 
 class ValidateRentalStatusParamsIdMiddleware {
     async validate(req: Request, res: Response, next: NextFunction) {
@@ -10,13 +11,13 @@ class ValidateRentalStatusParamsIdMiddleware {
             const rentalStatus = await rentalStatusRepository.findById(id);
 
             if (!rentalStatus) {
-                return res.status(400).send({ error: 'Status de Alguel inválido!' });
+                return res.status(StatusCodes.BAD_REQUEST).send({ error: 'Status de Alguel inválido!' });
             }
 
             next();
         } catch (error) {
             console.log(AppError);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

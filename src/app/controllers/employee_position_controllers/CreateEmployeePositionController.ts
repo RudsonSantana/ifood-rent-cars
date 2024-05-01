@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { employeePositionCreateService } from '../../services/employee_position_services/EmployeePositionCreateService';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class CreateEmployeePositionController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -7,16 +9,17 @@ class CreateEmployeePositionController {
       const { name } = req.body;
 
       if (!name) {
-        res.status(400).send({ error: 'Necessário fornecer todos os dados' });
+        res.status(StatusCodes.UNPROCESSABLE_ENTITY).send({ error: 'Necessário fornecer todos os dados' });
         return next();
       }
 
       const upperCaseName = name.toUpperCase();
       const newEmployeePosition = await employeePositionCreateService.create({ name: upperCaseName });
-      res.status(201).send(newEmployeePosition);
+      res.status(StatusCodes.CREATED).send(newEmployeePosition);
+      
     } catch (error) {
-      console.error(error);
-      res.status(500).send({ error: 'Erro interno do servidor' });
+      console.error(AppError);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

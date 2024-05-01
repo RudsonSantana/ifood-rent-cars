@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { licenseCategoryCreateService } from '../../services/license_category_services/LicenseCategoryCreateService';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class CreateLicenseCategoryController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -7,16 +9,16 @@ class CreateLicenseCategoryController {
       const { name } = req.body;
 
       if (!name) {
-        res.status(400).send({ error: 'Necessário fornecer todos os dados' });
+        res.status(StatusCodes.UNPROCESSABLE_ENTITY).send({ error: 'Necessário fornecer todos os dados' });
         return next();
       }
 
       const upperCaseName = name.toUpperCase();
       const newLicenseCategory = await licenseCategoryCreateService.create({ name: upperCaseName });
-      res.status(201).send(newLicenseCategory);
+      res.status(StatusCodes.CREATED).send(newLicenseCategory);
     } catch (error) {
-      console.error(error);
-      res.status(500).send({ error: 'Erro interno do servidor' });
+      console.error(AppError);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

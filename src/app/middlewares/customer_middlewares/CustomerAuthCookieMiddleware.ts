@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, } from "express";
 import jwt from 'jsonwebtoken';
 import { AppError } from "../../errors/AppError";
+import { StatusCodes } from "http-status-codes";
 
 class CustomerAuthCookieMiddleware {
     async auth(req: Request, res: Response, next: NextFunction) {
@@ -8,7 +9,7 @@ class CustomerAuthCookieMiddleware {
             const token = req.cookies.token
 
             if (!token) {
-                return res.redirect('/login/customer');
+                return res.status(StatusCodes.UNAUTHORIZED).redirect('/login/customer');
             }
 
             const secret = process.env.JWT_SECRET!;
@@ -16,16 +17,16 @@ class CustomerAuthCookieMiddleware {
             try {
                 const decoded = jwt.verify(token, secret);
                 if (!decoded) {
-                    return res.redirect('/login/customer');
+                    return res.status(StatusCodes.UNAUTHORIZED).redirect('/login/customer');
                 }
             } catch (error) {
-                return res.redirect('/login/customer');
+                return res.status(StatusCodes.UNAUTHORIZED).redirect('/login/customer');
             }
 
             next();
         } catch (error) {
             console.error(AppError);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

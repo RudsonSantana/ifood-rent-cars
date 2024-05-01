@@ -3,6 +3,8 @@ import path from 'path';
 import handlebars from 'handlebars';
 import { createTemplate } from "../../helpers/createTemplate";
 import { employeeFindByIdService } from '../../services/employee_services/EmployeeFindByIdService';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class FindByIdEmployeeController {
     async findById(req: Request, res: Response, next: NextFunction) {
@@ -11,7 +13,7 @@ class FindByIdEmployeeController {
             const employee = await employeeFindByIdService.findById(employeeId);
 
             if (employee) {
-                res.status(200).format({
+                res.status(StatusCodes.OK).format({
                     'text/html': () => {
                         const caminhoTemplate = createTemplate(path.resolve(
                             __dirname,
@@ -40,13 +42,13 @@ class FindByIdEmployeeController {
                     },
                 })
             } else {
-                res.status(404).send({ error: 'Colaborador não encontrado' });
+                res.status(StatusCodes.NOT_FOUND).send({ error: 'Colaborador não encontrado' });
             }
 
             next();
         } catch (error) {
-            console.error(error);
-            res.status(500).send({ error: 'Erro interno do servidor' });
+            console.error(AppError);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

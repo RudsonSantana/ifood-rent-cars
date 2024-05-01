@@ -3,6 +3,8 @@ import { customerFindByIdService } from '../../services/customer_services/Custom
 import { createTemplate } from "../../helpers/createTemplate";
 import path from 'path';
 import handlebars from 'handlebars';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class FindByIdCustomerController {
   async findById(req: Request, res: Response, next: NextFunction) {
@@ -11,7 +13,7 @@ class FindByIdCustomerController {
       const customer = await customerFindByIdService.findById(customerId);
 
       if (customer) {
-        res.status(200).format({
+        res.status(StatusCodes.OK).format({
           'text/html': () => {
             const caminhoTemplate = createTemplate(path.resolve(
               __dirname,
@@ -40,11 +42,11 @@ class FindByIdCustomerController {
           }
         })
       } else {
-        res.status(404).send({ error: 'Cliente não encontrado' });
+        res.status(StatusCodes.NOT_FOUND).send({ error: 'Cliente não encontrado' });
       }
     } catch (error) {
-      console.error(error);
-      res.status(500).send({ error: 'Erro interno do servidor' });
+      console.error(AppError);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { licenseCategoryRepository } from '../../../infra/db/sequelize/repositories/licenseCategoryRepository';
 import { AppError } from '../../errors/AppError';
+import { StatusCodes } from 'http-status-codes';
 
 class ValidateLicenseCategoryMiddleware {
   async validate(req: Request, res: Response, next: NextFunction) {
@@ -11,13 +12,13 @@ class ValidateLicenseCategoryMiddleware {
       );
 
       if (!habilitation) {
-        return res.status(400).json({ error: 'Habilitação inválida' });
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Habilitação inválida' });
       }
 
       next();
     } catch (error) {
       console.error(AppError);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

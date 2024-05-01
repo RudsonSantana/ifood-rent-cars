@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import { vehicleCategoryFindAllService } from '../../services/vehicles_category_services/VehicleCategoryFindAllService';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class FindAllVehicleCategoryController {
     async findAll(req: Request, res: Response, next: NextFunction) {
         try {
             const vehicleCategories = await vehicleCategoryFindAllService.findAll();
-            res.send(vehicleCategories);
+            res.status(StatusCodes.OK).send(vehicleCategories);
         } catch (error) {
-            console.error(error);
-            res.status(500).send({ error: 'Erro interno do servidor' });
+            console.error(AppError);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

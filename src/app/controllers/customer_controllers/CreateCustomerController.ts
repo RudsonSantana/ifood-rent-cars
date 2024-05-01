@@ -4,6 +4,8 @@ import { licenseCategoryFindAllService } from '../../services/license_category_s
 import path from 'path';
 import handlebars from 'handlebars';
 import { createTemplate } from "../../helpers/createTemplate";
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../errors/AppError';
 
 class CreateCustomerController {
     async create(req: Request, res: Response, next: NextFunction) {
@@ -11,7 +13,7 @@ class CreateCustomerController {
             const { name, cpf, email, password, phone, licenseCategory } = req.body;
 
             if (!name || !cpf || !email || !password || !phone || !licenseCategory) {
-                res.status(400).send({ error: 'Necessário fornecer todos os dados' });
+                res.status(StatusCodes.UNPROCESSABLE_ENTITY).send({ error: 'Necessário fornecer todos os dados' });
                 return next();
             }
 
@@ -28,7 +30,7 @@ class CreateCustomerController {
                     phone,
                     licenseCategory: habilitation.id
                 });
-                res.status(201).format({
+                res.status(StatusCodes.CREATED).format({
                     'text/html': () => {
                         const caminhoTemplate = createTemplate(path.resolve(
                           __dirname,
@@ -58,8 +60,8 @@ class CreateCustomerController {
                 });
             }
         } catch (error) {
-            console.error(error);
-            res.status(500).send({ error: 'Erro interno do servidor' });
+            console.error(AppError);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }
