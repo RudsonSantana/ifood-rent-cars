@@ -3,7 +3,6 @@ import { rentalStatusCreateService } from '../../services/rental_status_services
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../../errors/AppError';
 
-
 class CreateRentalStatusController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {

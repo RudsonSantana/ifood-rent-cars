@@ -4,7 +4,7 @@ import { licenseCategoryFindAllService } from '../../services/license_category_s
 import path from 'path';
 import handlebars from 'handlebars';
 import { createTemplate } from "../../helpers/createTemplate";
-import { StatusCodes } from 'http-status-codes';
+import { StatusCodes} from 'http-status-codes';
 import { AppError } from '../../errors/AppError';
 
 class CreateCustomerController {
