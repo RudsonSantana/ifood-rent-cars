@@ -5,6 +5,7 @@ import { findByIdLicenseCategoryController } from '../controllers/license_catego
 import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
 import { authorizationByManagerMiddleware } from '../middlewares/employee_middlewares/AuthorizationForManagerMiddleware';
 import { validateLicenseCategoryParamsIdMiddleware } from '../middlewares/license_category_middlewares/ValidateLicenseCategoryParamsIdMiddleware';
+import { validateLicenseCategoryMiddleware } from '../middlewares/license_category_middlewares/ValidateLicenseCategoryMiddleware';
 
 const licenseCategoryRoutes = Router();
 
@@ -12,6 +13,7 @@ const licenseCategoryRoutes = Router();
 licenseCategoryRoutes.post('/licenseCategory',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
+    validateLicenseCategoryMiddleware.validate,
     createLicenseCategoryController.create
 );
 

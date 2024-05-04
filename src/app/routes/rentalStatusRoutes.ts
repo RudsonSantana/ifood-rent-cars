@@ -5,7 +5,8 @@ import { findByIdRentalStatusController } from '../controllers/rental_status_con
 import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
 import { authorizationByManagerMiddleware } from '../middlewares/employee_middlewares/AuthorizationForManagerMiddleware';
 import { authorizationByAttendantMiddleware } from '../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware';
-import { validateRentalStatusParamsIdMiddleware } from '../middlewares/rental_status_middlewares/ExistingRentalStatusMiddleware';
+import { validateRentalStatusParamsIdMiddleware } from '../middlewares/rental_status_middlewares/ValidateRentalStatusParamsIdMiddleware';
+import { validateRentalStatusMiddleware } from '../middlewares/rental_status_middlewares/ValidateRentalStatusMiddleware';
 
 const rentalStatusRoutes = Router();
 
@@ -13,6 +14,7 @@ const rentalStatusRoutes = Router();
 rentalStatusRoutes.post('/rentalStatus',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
+    validateRentalStatusMiddleware.validate,
     createRentalStatusController.create
 );
 

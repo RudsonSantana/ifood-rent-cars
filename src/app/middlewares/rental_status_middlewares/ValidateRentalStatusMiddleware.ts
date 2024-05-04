@@ -4,16 +4,20 @@ import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
 import { rentalStatusValidator } from '../../validators/rentalStatusValidator';
 
-class ExistingRentalStatusMiddleware {
-    async existing(req: Request, res: Response, next: NextFunction) {
+class ValidateRentalStatusMiddleware {
+    async validate(req: Request, res: Response, next: NextFunction) {
         try {
             const { status } = req.body;
             const { error } = rentalStatusValidator.validate({ status });
 
             const rentalStatus = await rentalStatusRepository.findByStatus(status);
 
-            if (!rentalStatus || error) {
+            if (error) {
                 return res.status(StatusCodes.BAD_REQUEST).send({ error: 'Status inválido!' });
+            }
+
+            if (rentalStatus) {
+                return res.status(StatusCodes.CONFLICT).send({ error: "Status já cadastrado!" })
             }
 
             next();
@@ -25,6 +29,6 @@ class ExistingRentalStatusMiddleware {
     }
 }
 
-const existingRentalStatusMiddleware = new ExistingRentalStatusMiddleware();
+const validateRentalStatusMiddleware = new ValidateRentalStatusMiddleware();
 
-export { existingRentalStatusMiddleware }
+export { validateRentalStatusMiddleware }

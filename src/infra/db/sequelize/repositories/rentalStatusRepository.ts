@@ -24,6 +24,18 @@ class RentalStatusRepository implements IRentalStatusRepository {
       }
     }
 
+    async findByStatus(status: string): Promise<IRentalStatus> {
+      const rentalStatus = await RentalStatus.findByPk(status);
+      if (rentalStatus) {
+        return {
+          id: rentalStatus.dataValues.id,
+          status: rentalStatus.dataValues.status,
+        };
+      } else {
+        return null
+      }
+    }
+
     async create(data: IRentalStatus): Promise<void> {
         const rentalStatus = await RentalStatus.create({
           id: data.id,
