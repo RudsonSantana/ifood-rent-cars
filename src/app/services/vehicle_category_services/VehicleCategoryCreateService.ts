@@ -8,11 +8,12 @@ export interface VehicleCategoryRequest {
 
 class VehicleCategoryCreateService {
     async create({
-        name,
+        category
     }): Promise<VehicleCategoryRequest> {
+        const upperCaseName = category.toUpperCase();
         const newVehicleCategory = {
             id: uuidv4(),
-            name
+            name: upperCaseName
         };
         await vehicleCategoryRepository.create(newVehicleCategory);
         return newVehicleCategory;

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { vehicleCategoryFindAllService } from '../../services/vehicles_category_services/VehicleCategoryFindAllService';
+import { vehicleCategoryFindAllService } from '../../services/vehicle_category_services/VehicleCategoryFindAllService';
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../../errors/AppError';
 
@@ -10,7 +10,7 @@ class FindAllVehicleCategoryController {
             res.status(StatusCodes.OK).send(vehicleCategories);
         } catch (error) {
             console.error(AppError);
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor!' });
             next(error);
         }
     }

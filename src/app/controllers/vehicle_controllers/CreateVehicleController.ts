@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { vehicleCategoryFindAllService } from '../../services/vehicles_category_services/VehicleCategoryFindAllService';
+import { vehicleCategoryFindByNameService } from '../../services/vehicle_category_services/VehicleCategoryFindByNameService';
 import { vehicleCreateService } from '../../services/vehicle_services/VehicleCreateService';
 import path from 'path';
 import handlebars from 'handlebars';
@@ -17,7 +17,7 @@ class CreateVehicleController {
         return next();
       }
 
-      const vehicleCategory = (await vehicleCategoryFindAllService.findAll()).find(item => item.name === category.toUpperCase())
+      const vehicleCategory = await vehicleCategoryFindByNameService.findByName(category);
 
       if (vehicleCategory) {
         const newVehicle = await vehicleCreateService.create({

@@ -4,6 +4,8 @@ import { findAllVehicleCategoryController } from '../controllers/vehicle_categor
 import { findByIdVehicleCategoryController } from '../controllers/vehicle_category_controllers/FindByIdVehicleCategoryController';
 import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
 import { authorizationByManagerMiddleware } from '../middlewares/employee_middlewares/AuthorizationForManagerMiddleware';
+import { validateVehicleCategoryMiddleware } from '../middlewares/vehicle_category_middlewares/ValidateVehicleCategoryMiddleware';
+import { validateVehicleCategoryParamsIdMiddleware } from '../middlewares/vehicle_category_middlewares/ValidateVehicleCategoryParamsIdMiddleware';
 
 const vehicleCategoryRoutes = Router();
 
@@ -11,6 +13,7 @@ const vehicleCategoryRoutes = Router();
 vehicleCategoryRoutes.post('/vehicleCategory',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
+    validateVehicleCategoryMiddleware.validate,
     createVehicleCategoryController.create
 );
 
@@ -24,6 +27,7 @@ vehicleCategoryRoutes.get('/vehicleCategory',
 vehicleCategoryRoutes.get('/vehicleCategory/:id',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
+    validateVehicleCategoryParamsIdMiddleware.validate,
     findByIdVehicleCategoryController.findById
 );
 

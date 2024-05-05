@@ -6,7 +6,7 @@ import { employeeAuthCookieMiddleware } from "../middlewares/employee_middleware
 import { authorizationByManagerMiddleware } from "../middlewares/employee_middlewares/AuthorizationForManagerMiddleware";
 import { authorizationByAttendantMiddleware } from "../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware";
 import { validPlateFormatMiddleware } from "../middlewares/vehicle_middlewares/ValidatePlateFormatMiddleware";
-import { validateVehicleCategoryMiddleware } from "../middlewares/vehicle_middlewares/ValidateVehicleCategoryMiddleware";
+import { existingVehicleCategoryMiddleware } from "../middlewares/vehicle_category_middlewares/ExistingVehicleCategoryMiddleware";
 import { existingVehicleMiddleware } from "../middlewares/vehicle_middlewares/ExistingVehicleMiddleware";
 import { validateVehicleParamsPlateMiddleware } from "../middlewares/vehicle_middlewares/ValidateVehicleParamsPlateMiddleware";
 import path from "path"
@@ -24,7 +24,7 @@ vehicleRoutes.post('/vehicles',
     authorizationByManagerMiddleware.authorization,
     validPlateFormatMiddleware.validate,
     existingVehicleMiddleware.check,
-    validateVehicleCategoryMiddleware.validate,
+    existingVehicleCategoryMiddleware.check,
     createVehicleController.create
 );
 
