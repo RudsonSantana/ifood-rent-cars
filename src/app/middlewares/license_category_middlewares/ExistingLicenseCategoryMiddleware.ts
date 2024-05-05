@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { licenseCategoryRepository } from '../../../infra/db/sequelize/repositories/licenseCategoryRepository';
+import { licenseCategoryFindByNameService } from '../../services/license_category_services/LicenseCategoryFindByNameService';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
 import { licenseCategoryValidator } from '../../validators/licenseCategoryValidator';
@@ -10,10 +10,14 @@ class ExistingLicenseCategoryMiddleware {
       const { licenseCategory } = req.body;
       const { error } = licenseCategoryValidator.validate({ licenseCategory })
 
-      const habilitation = await licenseCategoryRepository.findByName(licenseCategory);
-
-      if (!habilitation || error) {
+      if (error) {
         return res.status(StatusCodes.BAD_REQUEST).send({ error: 'Habilitação inválida' });
+      }
+
+      const habilitation = await licenseCategoryFindByNameService.findByName(licenseCategory);
+
+      if (!habilitation) {
+        return res.status(StatusCodes.NOT_FOUND).send({ error: 'Habilitação inválida' });
       }
 
       next();
