@@ -8,11 +8,12 @@ export interface EmployeePositionRequest {
 
 class EmployeePositionCreateService {
     async create({
-        name,
+        position,
     }): Promise<EmployeePositionRequest> {
+        const upperCaseName = position.toUpperCase();
         const newEmployeePosition = {
             id: uuidv4(),
-            name
+            name: upperCaseName
         };
         await employeePositionRepository.create(newEmployeePosition);
         return newEmployeePosition;

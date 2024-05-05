@@ -25,7 +25,7 @@ class LicenseCategoryRepository implements ILicenseCategoryRepository {
     }
 
     async findByName(name: string): Promise<ILicenseCategory> {
-      const licenseCategory = await LicenseCategory.findByPk(name);
+      const licenseCategory = await LicenseCategory.findOne({ where: { name: name } });
       if (licenseCategory) {
         return {
           id: licenseCategory.dataValues.id,

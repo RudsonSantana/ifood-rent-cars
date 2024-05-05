@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { licenseCategoryFindByIdService } from '../../services/license_category_services/LicenseCategoryFindByIDService';
+import { licenseCategoryFindByIdService } from '../../services/license_category_services/LicenseCategoryFindByIdService';
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../../errors/AppError';
 
@@ -8,13 +8,7 @@ class FindByIdLicenseCategoryController {
         try {
             const id = req.params.id;
             const licenseCategory = await licenseCategoryFindByIdService.findById(id);
-
-            if (licenseCategory) {
-                res.status(StatusCodes.OK).send(licenseCategory);
-            } else {
-                res.status(StatusCodes.NOT_FOUND).send({ error: 'Licensa não encontrada' });
-            }
-
+            res.status(StatusCodes.OK).send(licenseCategory);
         } catch (error) {
             console.error(AppError);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });

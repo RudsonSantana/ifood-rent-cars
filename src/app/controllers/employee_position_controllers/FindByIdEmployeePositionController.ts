@@ -8,13 +8,7 @@ class FindByIdEmployeePositionController {
         try {
             const id = req.params.id;
             const employeePosition = await employeePositionFindByIdService.findById(id);
-
-            if (employeePosition) {
-                res.status(StatusCodes.OK).send(employeePosition);
-            } else {
-                res.status(StatusCodes.NOT_FOUND).send({ error: 'Licensa não encontrada' });
-            }
-
+            res.status(StatusCodes.OK).send(employeePosition);
         } catch (error) {
             console.error(AppError);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });

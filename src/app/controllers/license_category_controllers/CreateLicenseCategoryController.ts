@@ -7,12 +7,6 @@ class CreateLicenseCategoryController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const { name } = req.body;
-
-      if (!name) {
-        res.status(StatusCodes.UNPROCESSABLE_ENTITY).send({ error: 'Necessário fornecer todos os dados' });
-        return next();
-      }
-
       const upperCaseName = name.toUpperCase();
       const newLicenseCategory = await licenseCategoryCreateService.create({ name: upperCaseName });
       res.status(StatusCodes.CREATED).send(newLicenseCategory);
