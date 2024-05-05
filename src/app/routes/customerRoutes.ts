@@ -4,13 +4,12 @@ import { findAllCustomerController } from '../controllers/customer_controllers/F
 import { createCustomerController } from '../controllers/customer_controllers/CreateCustomerController';
 import { validateCustomerCpfMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerCpfMiddleware';
 import { validateCustomerEmailMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerEmailMiddleware';
-import { validateLicenseCategoryMiddleware } from '../middlewares/license_category_middlewares/ValidateLicenseCategoryMiddleware';
+import { existingLicenseCategoryMiddleware } from '../middlewares/license_category_middlewares/ExistingLicenseCategoryMiddleware';
 import { authorizationByAttendantMiddleware } from '../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware';
 import { validateCustomerParamsIdMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerParamsIdMiddleware';
 import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
-import path from 'path';
 import { customerAuthCookieMiddleware } from '../middlewares/customer_middlewares/CustomerAuthCookieMiddleware';
-
+import path from 'path';
 
 const customerRoutes = Router();
 
@@ -24,7 +23,7 @@ customerRoutes.get('/customer',
 customerRoutes.post('/customers',
     validateCustomerCpfMiddleware.validate,
     validateCustomerEmailMiddleware.validate,
-    validateLicenseCategoryMiddleware.validate,
+    existingLicenseCategoryMiddleware.existing,
     createCustomerController.create
 );
 

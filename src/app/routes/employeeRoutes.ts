@@ -4,8 +4,8 @@ import { findAllEmployeeController } from '../controllers/employee_controllers/F
 import { findByIdEmployeeController } from '../controllers/employee_controllers/FindByIdEmployeeController';
 import { validateEmployeeCpfMiddleware } from '../middlewares/employee_middlewares/ValidateEmployeeCpfMiddleware';
 import { validateEmployeeEmailMiddleware } from '../middlewares/employee_middlewares/ValidateEmployeeEmailMiddleware';
-import { validateEmployeePositionMiddleware } from '../middlewares/employee_middlewares/ValidateEmployeePositionMiddleware';
-import { validateLicenseCategoryMiddleware } from '../middlewares/license_category_middlewares/ValidateLicenseCategoryMiddleware';
+import { existingEmployeePositionMiddleware } from '../middlewares/employee_positions_middlewares/ExistingEmployeePositionMiddleware';
+import { existingLicenseCategoryMiddleware } from '../middlewares/license_category_middlewares/ExistingLicenseCategoryMiddleware';
 import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
 import { authorizationByManagerMiddleware } from '../middlewares/employee_middlewares/AuthorizationForManagerMiddleware';
 import { authorizationByAttendantMiddleware } from '../middlewares/employee_middlewares/AuthorizationForAttendantMiddleware';
@@ -28,8 +28,8 @@ employeeRoutes.post('/employees',
     authorizationByManagerMiddleware.authorization,
     validateEmployeeCpfMiddleware.validate,
     validateEmployeeEmailMiddleware.validate,
-    validateLicenseCategoryMiddleware.validate,
-    validateEmployeePositionMiddleware.validate,
+    existingLicenseCategoryMiddleware.existing,
+    existingEmployeePositionMiddleware.existing,
     createEmployeeController.create
 );
 
@@ -41,8 +41,8 @@ employeeRoutes.get('/employees/all',
 
 employeeRoutes.get('/employees/:id',
     employeeAuthCookieMiddleware.auth,
-    validateEmployeeParamsIdMiddleware.validate,
     authorizationByAttendantMiddleware.authorization,
+    validateEmployeeParamsIdMiddleware.validate,
     findByIdEmployeeController.findById
 );
 

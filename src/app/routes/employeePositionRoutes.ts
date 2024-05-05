@@ -4,6 +4,8 @@ import { findAllEmployeePositionController } from '../controllers/employee_posit
 import { findByIdEmployeePositionController } from '../controllers/employee_position_controllers/FindByIdEmployeePositionController';
 import { employeeAuthCookieMiddleware } from '../middlewares/employee_middlewares/EmployeeAuthCookieMiddleware';
 import { authorizationByManagerMiddleware } from '../middlewares/employee_middlewares/AuthorizationForManagerMiddleware';
+import { validateEmployeePositionMiddleware } from '../middlewares/employee_positions_middlewares/ValidateEmployeePositionMiddleware';
+import { validateEmployeePositionParamsIdMiddleware } from '../middlewares/employee_positions_middlewares/ValidateEmployeePositionParamsIdMiddleware';
 
 const employeePositionRoutes = Router();
 
@@ -11,6 +13,7 @@ const employeePositionRoutes = Router();
 employeePositionRoutes.post('/employeePosition',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
+    validateEmployeePositionMiddleware.validate,
     createEmployeePositionController.create
 );
 
@@ -24,6 +27,7 @@ employeePositionRoutes.get('/employeePosition',
 employeePositionRoutes.get('/employeePosition/:id',
     employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
+    validateEmployeePositionParamsIdMiddleware.validate,
     findByIdEmployeePositionController.findById
 );
 
