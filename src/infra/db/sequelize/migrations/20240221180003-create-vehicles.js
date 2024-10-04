@@ -27,7 +27,7 @@ module.exports = {
       category: {
         type: Sequelize.STRING(36),
         references: {
-          model: 'vehicleCategories',
+          model: 'vehicle_categories',
           key: 'id'
         }
       },
@@ -39,6 +39,17 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false
       },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: Sequelize.literal('CURRENT_TIMESTAMP')
+      }
     });
   },
 

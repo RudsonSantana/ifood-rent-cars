@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('rentalstatuses', {
+    await queryInterface.createTable('rental_status', {
       id: {
         type: Sequelize.STRING(36),
         primaryKey: true
@@ -12,12 +12,23 @@ module.exports = {
         allowNull: false,
         unique: true 
       },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: Sequelize.literal('CURRENT_TIMESTAMP')
+      }
     });
 
-    await queryInterface.addIndex('rentalstatuses', ['status']);
+    await queryInterface.addIndex('rental_status', ['status']);
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('rentalstatuses');
+    await queryInterface.dropTable('rental_status');
   }
 };

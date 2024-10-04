@@ -33,16 +33,27 @@ module.exports = {
       licenseCategory: {
         type: Sequelize.STRING(36),
         references: {
-          model: 'licenseCategories',
+          model: 'license_categories',
           key: 'id'
         },
       },
       position: {
         type: Sequelize.STRING(36),
         references: {
-          model: 'employeePositions',
+          model: 'employee_positions',
           key: 'id'
         }
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },
