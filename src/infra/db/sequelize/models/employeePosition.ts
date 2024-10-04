@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "..";
 
-const EmployeePosition = sequelize.define('employeePositions', {
+const EmployeePosition = sequelize.define('employee_positions', {
     id: {
         type: DataTypes.STRING(36),
         primaryKey: true
@@ -13,7 +13,9 @@ const EmployeePosition = sequelize.define('employeePositions', {
     }
 },
     {
-        timestamps: false
+        timestamps: true,
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
     }
 );
 

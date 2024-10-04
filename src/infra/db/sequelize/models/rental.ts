@@ -42,14 +42,16 @@ const Rental = sequelize.define('rentals', {
   status: {
     type: DataTypes.STRING(36),
     references: {
-      model: 'rentalstatuses',
+      model: 'rental_status',
       key: 'status'
     }
   }
 
 }, 
 {
-  timestamps: false
+  timestamps: true,
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 }
 );
 

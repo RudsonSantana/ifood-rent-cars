@@ -12,7 +12,9 @@ const Login = sequelize.define('login', {
     },
 },
     {
-        timestamps: false
+        timestamps: true,
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
     }
 );
 

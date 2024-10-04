@@ -32,16 +32,18 @@ const Customer = sequelize.define('customers', {
   licenseCategory: {
     type: DataTypes.STRING(36),
     references: {
-      model: 'licenseCategories',
+      model: 'license_categories',
       key: 'id'
     },
   }
 },
   {
-    timestamps: false
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   }
 );
 
-Customer.belongsTo(LicenseCategory, { foreignKey: 'licenseCategory', as: 'customerLicenseCategory'});
+Customer.belongsTo(LicenseCategory, { foreignKey: 'licenseCategory', as: 'customerLicenseCategory' });
 
 export { Customer };

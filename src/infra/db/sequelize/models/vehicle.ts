@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "..";
 import { VehicleCategory } from "./vehicleCategory";
-import { NOT } from "sequelize/types/deferrable";
 
 const Vehicle = sequelize.define('vehicles', {
   plate: {
@@ -27,7 +26,7 @@ const Vehicle = sequelize.define('vehicles', {
   category: {
     type: DataTypes.STRING(36),
     references: {
-      model: 'vehicleCategories',
+      model: 'vehicle_categories',
       key: 'id'
     }
   },
@@ -41,7 +40,9 @@ const Vehicle = sequelize.define('vehicles', {
   },
 },
   {
-    timestamps: false
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   }
 ); 
 

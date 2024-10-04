@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from '..'
 
-const LicenseCategory = sequelize.define('licenseCategories', {
+const LicenseCategory = sequelize.define('license_categories', {
     id: {
         type: DataTypes.STRING(36),
         primaryKey: true
@@ -13,7 +13,9 @@ const LicenseCategory = sequelize.define('licenseCategories', {
     },
 },
     {
-        timestamps: false
+        timestamps: true,
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
     }
 );
 

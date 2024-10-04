@@ -33,20 +33,22 @@ const Employee = sequelize.define('employees', {
     licenseCategory: {
         type: DataTypes.STRING(36),
         references: {
-            model: 'licenseCategories',
+            model: 'license_categories',
             key: 'id'
         }
     },
     position: {
         type: DataTypes.STRING(36),
         references: {
-            model: 'employeePositions',
+            model: 'employee_positions',
             key: 'id'
         }
     }
 },
     {
-        timestamps: false
+        timestamps: true,
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
     }
 );
 

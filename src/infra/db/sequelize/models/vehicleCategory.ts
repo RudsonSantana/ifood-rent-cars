@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "..";
 
-const VehicleCategory = sequelize.define('vehicleCategories', {
+const VehicleCategory = sequelize.define('vehicle_categories', {
     id: {
         type: DataTypes.STRING(36),
         primaryKey: true
@@ -13,7 +13,9 @@ const VehicleCategory = sequelize.define('vehicleCategories', {
     },
 },
     {
-        timestamps: false
+        timestamps: true,
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
     }
 );
 
