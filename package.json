@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
     "start": "ts-node src/app.ts",
-    "dev": "nodemon",
-    "sequelize": "./node_modules/sequelize-cli/lib/sequelize "
+    "dev": "nodemon src/app.ts",
+    "sequelize:db": "sequelize db:create",
+    "sequelize:migrate": "sequelize db:migrate",
+    "sequelize:seed": "sequelize-cli db:seed:all",
+    "test:unit": "jest --verbose ./tests/units --coverage",
+    "test:integration": "jest --verbose --runInBand --detectOpenHandles ./tests/integrations/ --coverage"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
