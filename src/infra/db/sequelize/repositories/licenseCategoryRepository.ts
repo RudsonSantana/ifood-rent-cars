@@ -19,21 +19,7 @@ class LicenseCategoryRepository implements ILicenseCategoryRepository {
           id: licenseCategory.dataValues.id,
           name: licenseCategory.dataValues.name,
         };
-      } else {
-        return null
-      }
-    }
-
-    async findByName(name: string): Promise<ILicenseCategory> {
-      const licenseCategory = await LicenseCategory.findOne({ where: { name: name } });
-      if (licenseCategory) {
-        return {
-          id: licenseCategory.dataValues.id,
-          name: licenseCategory.dataValues.name,
-        };
-      } else {
-        return null
-      }
+      } return null
     }
 
     async create(data: ILicenseCategory): Promise<void> {
@@ -41,7 +27,6 @@ class LicenseCategoryRepository implements ILicenseCategoryRepository {
           id: data.id,
           name: data.name,
         });
-        console.log(licenseCategory);
     }
 }
 

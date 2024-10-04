@@ -19,21 +19,8 @@ class VehicleCategoryRepository implements IVehicleCategoryRepository {
         id: vehicleCategory.dataValues.id,
         name: vehicleCategory.dataValues.name,
       };
-    } else {
-      return null
-    }
-  }
+    } return null
 
-  async findByName(name: string): Promise<IVehicleCategory> {
-    const vehicleCategory = await VehicleCategory.findOne({ where: {name: name} })
-    if (vehicleCategory) {
-      return {
-        id: vehicleCategory.dataValues.id,
-        name: vehicleCategory.dataValues.name,
-      };
-    } else {
-      return null
-    }
   }
 
   async create(data: IVehicleCategory): Promise<void> {
@@ -41,7 +28,6 @@ class VehicleCategoryRepository implements IVehicleCategoryRepository {
       id: data.id,
       name: data.name,
     });
-    console.log(vehicleCategory);
   }
 }
 

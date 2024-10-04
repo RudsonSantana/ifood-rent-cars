@@ -19,9 +19,7 @@ class EmployeePositionRepository implements IEmployeePositionRepository {
           id: employeePosition.dataValues.id,
           name: employeePosition.dataValues.name,
         };
-      } else {
-        return null
-      }
+      } return null
     }
 
     async findByName(name: string): Promise<IEmployeePosition> {
@@ -31,9 +29,7 @@ class EmployeePositionRepository implements IEmployeePositionRepository {
           id: employeePosition.dataValues.id,
           name: employeePosition.dataValues.name,
         };
-      } else {
-        return null
-      }
+      } return null
     }
 
     async create(data: IEmployeePosition): Promise<void> {
@@ -41,7 +37,6 @@ class EmployeePositionRepository implements IEmployeePositionRepository {
           id: data.id,
           name: data.name,
         });
-        console.log(employeePosition);
     }
 }
 

@@ -1,9 +1,20 @@
 import { IVehicle, IVehicleRepository } from '../../../../app/repositories/vehicleRepository';
+import { LicenseCategory } from '../models/licenseCategory';
 import { Vehicle, } from '../models/vehicle';
 
 class VehicleRepository implements IVehicleRepository {
   async findAll(): Promise<IVehicle[]> {
-    const vehicle = await Vehicle.findAll();
+    const vehicle = await Vehicle.findAll({
+      include: [
+        {
+          model: LicenseCategory,
+          as: 'vehicleCategories',
+          attributes: {
+            exclude: ['id']
+          }
+        }
+      ]
+    });
     return vehicle.map(item => {
       return {
         plate: item.dataValues.plate,

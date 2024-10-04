@@ -1,10 +1,19 @@
 import { ICustomerRepository, ICustomer } from '../../../../app/repositories/customerRepository';
 import { Customer } from '../models/customer';
 import bcrypt from 'bcrypt';
+import { LicenseCategory } from '../models/licenseCategory';
 
 class CustomerRepository implements ICustomerRepository {
   async findAll(): Promise<ICustomer[]> {
-    const customer = await Customer.findAll();
+    const customer = await Customer.findAll({
+      include: [
+        {
+          model: LicenseCategory,
+          as: 'customerLicenseCategory',
+          attributes: ['id','name']
+        }
+      ]
+    });
     return customer.map(item => {
       return {
         id: item.dataValues.id,
@@ -13,13 +22,21 @@ class CustomerRepository implements ICustomerRepository {
         email: item.dataValues.email,
         password: item.dataValues.password,
         phone: item.dataValues.phone,
-        licenseCategory: item.dataValues.licenseCategory
+        licenseCategory: item.dataValues.customerLicenseCategory.name
       }
     });
   }
 
   async findById(customerId: string): Promise<ICustomer> {
-    const customer = await Customer.findByPk(customerId);
+    const customer = await Customer.findByPk(customerId, {
+      include: [
+        {
+          model: LicenseCategory,
+          as: 'customerLicenseCategory',
+          attributes: ['id','name']
+        }
+      ]
+    });
     if (customer) {
       return {
         id: customer.dataValues.id,
@@ -30,9 +47,7 @@ class CustomerRepository implements ICustomerRepository {
         phone: customer.dataValues.phone,
         licenseCategory: customer.dataValues.licenseCategory
       };
-    } else {
-      return null
-    }
+    } return null
   }
 
   async findByEmail(email: string): Promise<ICustomer | null> {
@@ -47,9 +62,7 @@ class CustomerRepository implements ICustomerRepository {
         phone: customer.dataValues.phone,
         licenseCategory: customer.dataValues.licenseCategory,
       }
-    } else {
-      return null;
-    }
+    } return null;
   }
 
   async findByCpf(cpf: string): Promise<ICustomer | null> {
@@ -69,9 +82,7 @@ class CustomerRepository implements ICustomerRepository {
         phone: customer.phone,
         licenseCategory: customer.licenseCategory,
       }
-    } else {
-      return null;
-    }
+    } return null;
   }
 
   async create(data: ICustomer): Promise<void> {

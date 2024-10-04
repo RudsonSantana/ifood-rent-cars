@@ -31,9 +31,8 @@ class RentalRepository implements IRentalRepository {
         rentalAmount: rental.dataValues.rentalAmount,
         status: rental.dataValues.status
       }
-    } else {
-      return null;
-    }
+    } return null;
+    
   }
 
   async findRentalsByCustomer(customerId: string): Promise<IRental | null> {
@@ -49,9 +48,7 @@ class RentalRepository implements IRentalRepository {
         rentalAmount: rental.dataValues.rentalAmount,
         status: rental.dataValues.status
       }
-    } else {
-      return null;
-    }
+    } return null;
   }
 
   async findRentalsByPlate(plate: string): Promise<IRental | null> {
@@ -67,9 +64,7 @@ class RentalRepository implements IRentalRepository {
         rentalAmount: rental.dataValues.rentalAmount,
         status: rental.dataValues.status
       }
-    } else {
-      return null;
-    }
+    } return null;
   }
 
   async create(data: IRental): Promise<void> {
@@ -83,7 +78,6 @@ class RentalRepository implements IRentalRepository {
       rentalAmount: data.rentalAmount,
       status: data.status
     })
-    console.log(rental);
   }
 
   async updateRentalStatus(id: string, newStatus: string): Promise<void> {

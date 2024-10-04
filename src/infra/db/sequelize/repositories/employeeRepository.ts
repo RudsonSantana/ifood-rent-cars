@@ -9,18 +9,16 @@ class EmployeeRepository implements IEmployeeRepository {
     const employee = await Employee.findAll({
       include: [
         {
-            model: LicenseCategory, as: 'employeeLicenseCategory',
-            attributes: {
-                exclude: ['id']
-            }
+          model: LicenseCategory, 
+          as: 'employeeLicenseCategory',
+          attributes: ['id', 'name']
         },
         {
-          model: EmployeePosition, as: 'employeePosition',
-          attributes: {
-              exclude: ['id']
-          }
-      }
-    ]
+          model: EmployeePosition, 
+          as: 'employeePosition',
+          attributes: ['id', 'name']
+        }
+      ]
     });
     return employee.map(item => {
       return {
@@ -30,15 +28,28 @@ class EmployeeRepository implements IEmployeeRepository {
         email: item.dataValues.email,
         password: item.dataValues.password,
         phone: item.dataValues.phone,
-        licenseCategory: item.dataValues.licenseCategory,
-        position: item.dataValues.position
+        licenseCategory: item.dataValues.employeeLicenseCategory.name,
+        position: item.dataValues.employeePosition.name
 
       }
     });
   }
 
   async findById(id: string): Promise<IEmployee | null> {
-    const employee = await Employee.findByPk(id);
+    const employee = await Employee.findByPk(id, {
+      include: [
+        {
+          model: LicenseCategory, 
+          as: 'employeeLicenseCategory',
+          attributes: ['id', 'name']
+        },
+        {
+          model: EmployeePosition, 
+          as: 'employeePosition',
+          attributes: ['id', 'name']
+        }
+      ]
+    });
     if (employee) {
       return {
         id: employee.dataValues.id,
@@ -50,9 +61,7 @@ class EmployeeRepository implements IEmployeeRepository {
         licenseCategory: employee.dataValues.licenseCategory,
         position: employee.dataValues.position
       }
-    } else {
-      return null;
-    }
+    } return null;
   }
 
   async findByEmail(email: string): Promise<IEmployee | null> {
@@ -68,9 +77,7 @@ class EmployeeRepository implements IEmployeeRepository {
         licenseCategory: employee.dataValues.licenseCategory,
         position: employee.dataValues.position
       }
-    } else {
-      return null;
-    }
+    } return null;
   }
 
   async findByCpf(cpf: string): Promise<IEmployee | null> {
@@ -78,7 +85,7 @@ class EmployeeRepository implements IEmployeeRepository {
       const compareCpf = bcrypt.compare(cpf, emp.cpf);
       if (compareCpf) {
         return emp;
-      } 
+      }
     });
     if (employee) {
       return {
@@ -91,9 +98,7 @@ class EmployeeRepository implements IEmployeeRepository {
         licenseCategory: employee.licenseCategory,
         position: employee.position
       }
-    } else {
-      return null;
-    }
+    } return null;
   }
 
   async findByPosition(position: string): Promise<IEmployee | null> {
@@ -109,9 +114,7 @@ class EmployeeRepository implements IEmployeeRepository {
         licenseCategory: employee.dataValues.licenseCategory,
         position: employee.dataValues.position
       }
-    } else {
-      return null;
-    }
+    } return null;
   }
 
   async create(data: IEmployee): Promise<void> {
@@ -125,7 +128,6 @@ class EmployeeRepository implements IEmployeeRepository {
       licenseCategory: data.licenseCategory,
       position: data.position
     });
-    console.log(employee);
   }
 
   async passwordUpdate(employee: IEmployee, newPassword: string, confirmNewPassword: string): Promise<void> {
