@@ -1,24 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
-import { employeePasswordUpdateService } from '../../services/employee_services/EmployeePasswordUpdateService';
-import { employeeFindByIdService } from '../../services/employee_services/EmployeeFindByIdService';
+import { customerFindByIdService } from '../../services/customer_services/CustomerFindByIdService';
+import { customerPasswordUpdateService } from '../../services/customer_services/CustomerPasswordUpdateService';
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../../errors/AppError';
 
-
-class ChangeEmployeePasswordController {
-    async changeEmployeePassword(req: Request, res: Response, next: NextFunction) {
+class CustomerChangePasswordController {
+    async changeCustomerPassword(req: Request, res: Response, next: NextFunction) {
         try {
             const { newPassword, confirmNewPassword } = req.body;
             const id = req.params.id;
-            
-            const employee = await employeeFindByIdService.findById(id);
 
-            if (employee) {
-                await employeePasswordUpdateService.passwordUpdate(id, newPassword, confirmNewPassword);
+            const customer = await customerFindByIdService.findById(id);
+
+            if (customer) {
+                await customerPasswordUpdateService.passwordUpdate(id, newPassword, confirmNewPassword);
                 res.status(StatusCodes.OK).send({ message: 'Senha atualizada com sucesso!' });
             }
 
-            if (!employee) {
+            if (!customer) {
                 res.status(StatusCodes.NOT_FOUND).send({ error: "Usuário não encontrado" });
             }
 
@@ -31,6 +30,6 @@ class ChangeEmployeePasswordController {
     }
 }
 
-const changeEmployeePasswordController = new ChangeEmployeePasswordController();
+const customerChangePasswordController = new CustomerChangePasswordController();
 
-export { changeEmployeePasswordController }
+export { customerChangePasswordController }
