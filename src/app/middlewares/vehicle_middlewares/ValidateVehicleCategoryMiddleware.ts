@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
-import { vehicleCategoryFindAllService } from '../../services/vehicles_category_services/VehicleCategoryFindAllService';
+import { vehicleCategoryFindAllService } from '../../services/vehicle_category_services/VehicleCategoryFindAllService';
+
 
 class ValidateVehicleCategoryMiddleware {
   async validate(req: Request, res: Response, next: NextFunction) {

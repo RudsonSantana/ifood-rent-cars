@@ -1,13 +1,14 @@
 import { rentalRepository } from '../../../infra/db/sequelize/repositories/rentalRepository';
 import { vehicleRepository } from '../../../infra/db/sequelize/repositories/vehicleRepository';
 import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
-import { VehicleRequest } from '../vehicle_services/VehicleCreateService';
-import { CustomerRequest } from '../customer_services/CustomerCreateService';
+
 import { v4 as uuidv4 } from 'uuid';
 import { AppError } from '../../errors/AppError';
+import { ICustomerRequest } from '../../interfaces/ICustomer';
+import { IVehicleRequest } from '../../interfaces/IVehicle';
 
 class RentalReserveService {
-  async reserve(customer: CustomerRequest, vehicle: VehicleRequest, startDate: Date, endDate: Date, status: string) {
+  async reserve(customer: ICustomerRequest, vehicle: IVehicleRequest, startDate: Date, endDate: Date, status: string) {
     console.log(customer);
     const existingCustomer = await customerRepository.findById(customer.id);
     const existingVehicle = await vehicleRepository.findByPlate(vehicle.plate);

@@ -7,6 +7,7 @@ import { employeeFindByEmailService } from "../../services/employee_services/Emp
 import { employeeFindByCpfService } from "../../services/employee_services/EmployeeFindByCpfService";
 import { employeeFindByPositionService } from "../../services/employee_services/EmployeeFindByPositionService";
 
+
 class EmployeePasswordTokenVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
         try {

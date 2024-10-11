@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
-import { licenseCategoryFindByIdService } from '../../services/license_category_services/LicenseCategoryFindByIDService';
+import { licenseCategoryFindByIdService } from '../../services/license_category_services/LicenseCategoryFindByIdService';
+
 
 class ValidateLicenseCategoryParamsIdMiddleware {
     async validate(req: Request, res: Response, next: NextFunction) {

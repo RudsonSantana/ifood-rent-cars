@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { encrypt } from "../../helpers/cryptHelper";
 import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
-import { LoginRequest } from '../../interfaces/ILoginRequest';
+import { ILoginRequest } from '../../interfaces/ILoginRequest';
 
 class CustomerLoginService {
-  async login({ email, password }: LoginRequest) {
+  async login({ email, password }: ILoginRequest) {
     const passwordProvided = encrypt(password)
     const customer = await customerRepository.findByEmail(email);
 

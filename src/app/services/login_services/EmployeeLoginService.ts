@@ -1,10 +1,10 @@
 import { employeeRepository } from '../../../infra/db/sequelize/repositories/employeeRepository';
-import { LoginRequest } from '../../interfaces/ILoginRequest';
+import { ILoginRequest } from '../../interfaces/ILoginRequest';
 import { encrypt } from "../../helpers/cryptHelper";
 import jwt from 'jsonwebtoken';
 
 class EmployeeLoginService {
-    async login({ email, password }: LoginRequest) {
+    async login({ email, password }: ILoginRequest) {
         const passwordProvided = encrypt(password);
         const employee = await employeeRepository.findByEmail(email);
 

@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { employeeForgotPasswordService } from '../../services/password_service/EmployeeForgotPasswordService';
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../../errors/AppError';
 import { employeeFindByEmailService } from '../../services/employee_services/EmployeeFindByEmailService';
+import { employeeForgotPasswordService } from '../../services/employee_services/EmployeeForgotPasswordService';
 
 class EmployeeForgotPasswordController {
     async forgotEmployeePassword(req: Request, res: Response, next: NextFunction) {
