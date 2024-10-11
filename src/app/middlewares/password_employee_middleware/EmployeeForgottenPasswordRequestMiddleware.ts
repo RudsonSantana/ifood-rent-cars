@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import { employeeRepository } from "../../../infra/db/sequelize/repositories/employeeRepository";
 import bcrypt from 'bcrypt';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
+import { employeeFindByEmailService } from '../../services/employee_services/EmployeeFindByEmailService';
+import { employeeFindByCpfService } from '../../services/employee_services/EmployeeFindByCpfService';
 
 class EmployeeForgottenPasswordRequestMiddleware {
     async check(req: Request, res: Response, next: NextFunction) {
         const { email, cpf } = req.body;
         try {
-            const employeeEmail = await employeeRepository.findByEmail(email);
+            const employeeEmail = await employeeFindByEmailService.findByEmail(email);
             
-            const employeeCPF = await employeeRepository.findByCpf(cpf)
+            const employeeCPF = await employeeFindByCpfService.findByCpf(cpf)
             const compareCpf = await bcrypt.compareSync(cpf, employeeCPF.cpf)          
 
             if (!employeeEmail) {

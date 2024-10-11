@@ -1,10 +1,10 @@
 import { Router, Request, Response } from 'express';
-import { forgotCustomerPasswordController } from '../controllers/password_controllers/ForgotCustomerPasswordController';
-import { changeCustomerPasswordController } from '../controllers/password_controllers/ChangeCustomerPasswordController';
-import { customerForgottenPasswordRequestMiddleware } from '../middlewares/customer_middlewares/CustomerForgottenPasswordRequestMiddleware';
-import { passwordAuthMiddleware } from '../middlewares/password_middlewares/PasswordAuthMiddleware';
-import { customerPasswordTokenVerificationMiddleware } from '../middlewares/customer_middlewares/CustomerPasswordTokenVerificationMiddleware';
-import { compareCustomerPasswordsMiddleware } from '../middlewares/customer_middlewares/CompareCustomerPasswordsMiddleware';
+import { customerForgotPasswordController } from '../controllers/password_controllers/CustomerForgotPasswordController';
+import { customerChangePasswordController } from '../controllers/password_controllers/CustomerChangePasswordController';
+import { customerForgottenPasswordRequestMiddleware } from '../middlewares/password_customer_middlewares/CustomerForgottenPasswordRequestMiddleware';
+import { passwordAuthMiddleware } from '../middlewares/password_customer_middlewares/PasswordAuthMiddleware';
+import { customerPasswordTokenVerificationMiddleware } from '../middlewares/password_customer_middlewares/CustomerPasswordTokenVerificationMiddleware';
+import { compareCustomerPasswordsMiddleware } from '../middlewares/password_customer_middlewares/CompareCustomerPasswordsMiddleware';
 import { validateCustomerParamsIdMiddleware } from '../middlewares/customer_middlewares/ValidateCustomerParamsIdMiddleware';
 import path from 'path';
 
@@ -19,10 +19,8 @@ passwordCustomerRoutes.get('/password/customer/forgot', (req: Request, res: Resp
 
 //Post
 passwordCustomerRoutes.post('/password/customer/forgot',
-    customerForgottenPasswordRequestMiddleware.check, (req: Request, res: Response) => {
-        forgotCustomerPasswordController.forgotCustomerPassword
-        res.redirect('/password/customer/change/:id');
-    }
+    customerForgottenPasswordRequestMiddleware.check,
+    customerForgotPasswordController.forgotCustomerPassword
 );
 
 //Put
@@ -31,7 +29,7 @@ passwordCustomerRoutes.put('/password/customer/change/:id',
     validateCustomerParamsIdMiddleware.validate,
     customerPasswordTokenVerificationMiddleware.execute,
     compareCustomerPasswordsMiddleware.compare,
-    changeCustomerPasswordController.changeCustomerPassword
+    customerChangePasswordController.changeCustomerPassword
 );
 
 export { passwordCustomerRoutes }

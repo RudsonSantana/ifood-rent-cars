@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { customerLoginController } from '../controllers/login_controllers/CustomerLoginController';
-import { customerLoginVerificationMiddleware } from '../middlewares/customer_middlewares/CustomerLoginVerificationMiddleware';
+import { customerLoginVerificationMiddleware } from '../middlewares/login_middlewares/CustomerLoginVerificationMiddleware';
 import path from 'path';
 
 const customerLoginRoutes = Router();

@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { customerRepository } from "../../../infra/db/sequelize/repositories/customerRepository";
 import jwt from 'jsonwebtoken';
 import { AppError } from "../../errors/AppError";
 import { StatusCodes } from "http-status-codes";
+import { customerFindByIdService } from "../../services/customer_services/CustomerFindByIdService";
+import { customerFindByEmailService } from "../../services/customer_services/CustomerFindByEmailService";
+import { customerFindByCpfService } from "../../services/customer_services/CustomerFindByCpfService";
 
 class CustomerPasswordTokenVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
@@ -17,9 +19,9 @@ class CustomerPasswordTokenVerificationMiddleware {
                 const cpf = decodedToken.cpf;
 
                 if (id && email && cpf) {
-                    const customerId = await customerRepository.findById(id);
-                    const customerEmail = await customerRepository.findByEmail(email);
-                    const customer = await customerRepository.findByCpf(cpf)
+                    const customerId = await customerFindByIdService.findById(id);
+                    const customerEmail = await customerFindByEmailService.findByEmail(email);
+                    const customer = await customerFindByCpfService.findByCpf(cpf)
                     const customerCPF = await cpf === await customer.cpf
     
                     if (!customerId || !customerEmail || !customerCPF) {

@@ -9,7 +9,14 @@ class EmployeeAuthCookieMiddleware {
             const token = req.cookies.token
 
             if (!token) {
-                res.status(StatusCodes.UNAUTHORIZED).redirect('/login/employee');
+                res.status(StatusCodes.UNAUTHORIZED).format({
+                    'text/html': () => {
+                        res.redirect('/login/employee');
+                    },
+                    'application/json': () => {
+                        res.json({ error: 'Usuário não autorizado!' })
+                    }
+                });
             }
 
             const secret = process.env.JWT_SECRET!;
@@ -17,15 +24,25 @@ class EmployeeAuthCookieMiddleware {
             try {
                 const decoded = jwt.verify(token, secret);
                 if (!decoded) {
-                    res.status(StatusCodes.UNAUTHORIZED).redirect('/login/employee');
+                    res.status(StatusCodes.UNAUTHORIZED).format({
+                        'text/html': () => {
+                            res.redirect('/login/employee');
+                        },
+                        'application/json': () => {
+                            res.json({ error: 'Usuário não autorizado!' })
+                        }
+                    });
                 }
             } catch (error) {
-                res.status(StatusCodes.UNAUTHORIZED).redirect('/login/employee');
+                res.status(StatusCodes.UNAUTHORIZED).format({
+                    'text/html': () => {
+                        res.redirect('/login/employee');
+                    },
+                    'application/json': () => {
+                        res.json({ error: 'Usuário não autorizado!' })
+                    }
+                });
             }
-            
-            req.headers = {
-                token: token
-            };
 
             next();
         } catch (error) {

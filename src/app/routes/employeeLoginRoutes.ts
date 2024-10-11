@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { employeeLoginController } from '../controllers/login_controllers/EmployeeLoginController';
-import { employeeLoginVerificationMiddleware } from '../middlewares/employee_middlewares/EmployeeLoginVerificationMiddleware';
+import { employeeLoginVerificationMiddleware } from '../middlewares/login_middlewares/EmployeeLoginVerificationMiddleware';
 import path from 'path';
 
 const employeeLoginRoutes = Router();

@@ -1,8 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { employeeRepository } from "../../../infra/db/sequelize/repositories/employeeRepository";
 import jwt from 'jsonwebtoken';
 import { AppError } from "../../errors/AppError";
 import { StatusCodes } from "http-status-codes";
+import { employeeFindByIdService } from "../../services/employee_services/EmployeeFindByIdService";
+import { employeeFindByEmailService } from "../../services/employee_services/EmployeeFindByEmailService";
+import { employeeFindByCpfService } from "../../services/employee_services/EmployeeFindByCpfService";
+import { employeeFindByPositionService } from "../../services/employee_services/EmployeeFindByPositionService";
 
 class EmployeePasswordTokenVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
@@ -19,13 +22,13 @@ class EmployeePasswordTokenVerificationMiddleware {
                 const position = decodedToken.position;
 
                 if (id && email && cpf && position) {
-                    const employeeId = await employeeRepository.findById(id);
-                    const employeeEmail = await employeeRepository.findByEmail(email);
+                    const employeeId = await employeeFindByIdService.findById(id);
+                    const employeeEmail = await employeeFindByEmailService.findByEmail(email);
 
-                    const employeeCPF = await employeeRepository.findByCpf(cpf)
+                    const employeeCPF = await employeeFindByCpfService.findByCpf(cpf)
                     const compareCpf = cpf === employeeCPF.cpf
 
-                    const employeePosition = await employeeRepository.findByPosition(position)
+                    const employeePosition = await employeeFindByPositionService.findByPosition(position)
                     const comparePosition = await position === employeePosition.position
 
                     if (!employeeId || !employeeEmail || !compareCpf || !comparePosition) {

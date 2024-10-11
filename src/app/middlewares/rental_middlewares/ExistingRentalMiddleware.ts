@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import { rentalRepository } from '../../../infra/db/sequelize/repositories/rentalRepository';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
+import { rentalFindByIdService } from '../../services/rental_services/RentalFindByIdService';
 
 class ExistingRentalMiddleware {
   async check(req: Request, res: Response, next: NextFunction) {
     const id = req.body.id || req.params.id;
 
     try {
-      const existingRental = await rentalRepository.findById(id);
+      const existingRental = await rentalFindByIdService.findById(id);
 
       if (!existingRental) {
         return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Aluguel não encontrado' });

@@ -1,24 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerRepository } from "../../../infra/db/sequelize/repositories/customerRepository";
 import { encrypt } from '../../helpers/cryptHelper';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
+import { employeeFindByEmailService } from '../../services/employee_services/EmployeeFindByEmailService';
 
-class CustomerLoginVerificationMiddleware {
+class EmployeeLoginVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password } = req.body;
-            const customer = await customerRepository.findByEmail(email);
             const passwordProvided = encrypt(password);
+            const employee = await employeeFindByEmailService.findByEmail(email);
 
-            if (!customer || customer.password != passwordProvided) {
-                res.status(StatusCodes.UNAUTHORIZED).redirect('/login/customer');
+            if (!employee) {
+                res.status(StatusCodes.UNAUTHORIZED).redirect('/login/employee');
+            }
+
+            else if (employee.password != passwordProvided) {
+                res.status(StatusCodes.UNAUTHORIZED).redirect('/login/employee');
             }
 
             else {
                 next();
             }
-
         } catch (error) {
             console.error(AppError);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
@@ -27,6 +30,6 @@ class CustomerLoginVerificationMiddleware {
     }
 }
 
-const customerLoginVerificationMiddleware = new CustomerLoginVerificationMiddleware();
+const employeeLoginVerificationMiddleware = new EmployeeLoginVerificationMiddleware();
 
-export { customerLoginVerificationMiddleware }
+export { employeeLoginVerificationMiddleware }

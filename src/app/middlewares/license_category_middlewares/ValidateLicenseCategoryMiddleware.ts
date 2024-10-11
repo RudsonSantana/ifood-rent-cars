@@ -1,29 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
-import { licenseCategoryFindByNameService } from '../../services/license_category_services/LicenseCategoryFindByNameService';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
 import { licenseCategoryValidator } from '../../validators/licenseCategoryValidator';
+import { licenseCategoryFindAllService } from '../../services/license_category_services/LicenseCategoryFindAllService';
 
 class ValidateLicenseCategoryMiddleware {
   async validate(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name } = req.body;
-      const { error } = licenseCategoryValidator.validate({ name });
+      const { licenseCategory } = req.body;
+      const { error } = licenseCategoryValidator.validate({ licenseCategory });
+      const habilitation = ((await licenseCategoryFindAllService.findAll()).
+        find(item => item.name === licenseCategory.toUpperCase())
+      );
 
-      if (error) {
-        return res.status(StatusCodes.BAD_REQUEST).send({ error: 'Habilitação inválida!' });
-      }
-
-      const licenseCategory = await licenseCategoryFindByNameService.findByName(name);
-
-      if (licenseCategory) {
-        return res.status(StatusCodes.CONFLICT).send({ error: 'Habilitação já cadastrada!' });
+      if (!habilitation || error) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Habilitação inválida' });
       }
 
       next();
     } catch (error) {
       console.error(AppError);
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor!' });
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

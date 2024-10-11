@@ -1,30 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
-import { rentalStatusRepository } from '../../../infra/db/sequelize/repositories/rentalStatusRepository';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
-import { rentalStatusValidator } from '../../validators/rentalStatusValidator';
+import { rentalStatusFindByIdService } from '../../services/rental_status_services/RentalStatusFindByIdService';
 
-class ExistingRentalStatusMiddleware {
-    async existing(req: Request, res: Response, next: NextFunction) {
+class ValidateRentalStatusParamsIdMiddleware {
+    async validate(req: Request, res: Response, next: NextFunction) {
         try {
-            const { status } = req.body;
-            const { error } = rentalStatusValidator.validate({ status });
+            const id = req.params.id;
 
-            const rentalStatus = await rentalStatusRepository.findByStatus(status);
+            const rentalStatus = await rentalStatusFindByIdService.findById(id);
 
-            if (!rentalStatus || error) {
-                return res.status(StatusCodes.BAD_REQUEST).send({ error: 'Status inválido!' });
+            if (!rentalStatus) {
+                return res.status(StatusCodes.BAD_REQUEST).send({ error: 'Status de Alguel inválido!' });
             }
 
             next();
         } catch (error) {
             console.log(AppError);
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Erro interno do servidor' });
             next(error);
         }
     }
 }
 
-const existingRentalStatusMiddleware = new ExistingRentalStatusMiddleware();
+const validateRentalStatusParamsIdMiddleware = new ValidateRentalStatusParamsIdMiddleware();
 
-export { existingRentalStatusMiddleware }
+export { validateRentalStatusParamsIdMiddleware }

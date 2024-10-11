@@ -1,13 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
-import { employeeRepository } from '../../../infra/db/sequelize/repositories/employeeRepository';
 import { AppError } from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
+import { emailValidator } from '../../validators/emailValidator';
+import { employeeFindByEmailService } from '../../services/employee_services/EmployeeFindByEmailService';
 
 class ValidateEmployeeEmailMiddleware {
     async validate(req: Request, res: Response, next: NextFunction) {
         try {
             const { email } = req.body;
-            const employee = await employeeRepository.findByEmail(email);
+            const { error } = emailValidator.validate({ email });
+
+            if (error) {
+                return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Email inválido' });
+            }
+
+            const employee = await employeeFindByEmailService.findByEmail(email);
 
             if (employee) {
                 return res.status(StatusCodes.CONFLICT).json({ error: 'Email já cadastrado' });

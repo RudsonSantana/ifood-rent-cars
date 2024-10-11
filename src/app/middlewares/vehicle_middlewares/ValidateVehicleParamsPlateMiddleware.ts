@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../../errors/AppError';
-import { vehicleRepository } from '../../../infra/db/sequelize/repositories/vehicleRepository';
 import { StatusCodes } from 'http-status-codes';
+import { vehicleFindByPlateService } from '../../services/vehicle_services/VehicleFindByPlateService';
 
 class ValidateVehicleParamsPlateMiddleware {
     async validate(req: Request, res: Response, next: NextFunction) {
         try {
             const plate = req.params.plate;
 
-            const vehicle = await vehicleRepository.findByPlate(plate)
+            const vehicle = await vehicleFindByPlateService.findByPlate(plate)
 
             if (!vehicle) {
                 return res.status(StatusCodes.BAD_REQUEST).send({ error: 'Veículo inválido!' });

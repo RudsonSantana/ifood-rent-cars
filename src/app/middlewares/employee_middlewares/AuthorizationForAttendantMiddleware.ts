@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { employeeRepository } from '../../../infra/db/sequelize/repositories/employeeRepository';
-import { AppError } from '../../errors/AppError';
-import { employeePositionRepository } from '../../../infra/db/sequelize/repositories/employeePositionRepository';
-import { StatusCodes } from 'http-status-codes';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { AppError } from "../../errors/AppError";
+import { StatusCodes } from "http-status-codes";
+import { employeeFindByIdService } from "../../services/employee_services/EmployeeFindByIdService";
+import { employeePositionFindByIdService } from "../../services/employee_position_services/EmployeePositionFindByIdService";
 
 class AuthorizationByAttendantMiddleware {
     async authorization(req: Request, res: Response, next: NextFunction) {
@@ -15,25 +15,46 @@ class AuthorizationByAttendantMiddleware {
             const positionDecoded = decodedToken.position;
             const idDecoded = decodedToken.id;
 
-            const employee = await employeeRepository.findById(idDecoded);
-            const position = await employeePositionRepository.findById(positionDecoded);
+            const employee = await employeeFindByIdService.findById(idDecoded);
+            const position = await employeePositionFindByIdService.findById(positionDecoded);
 
             if (!employee || !position) {
-                return res.status(StatusCodes.UNAUTHORIZED).send({ error: 'Usuário não autorizado!' });
+                return res.status(StatusCodes.UNAUTHORIZED).format({
+                    "text/html": () => {
+                        res.redirect("/dashboard/employee");
+                    },
+                    "application/json": () => {
+                        res.json({ error: "Usuário não autorizado!" });
+                    },
+                });
             }
 
             if (employee.position !== positionDecoded || employee.position !== position.id) {
-                return res.status(StatusCodes.UNAUTHORIZED).send({ error: 'Usuário não autorizado!' });
+                return res.status(StatusCodes.UNAUTHORIZED).format({
+                    "text/html": () => {
+                        res.redirect("/dashboard/employee");
+                    },
+                    "application/json": () => {
+                        res.json({ error: "Usuário não autorizado!" });
+                    },
+                });
             }
 
-            if (position.name.toUpperCase() !== 'MANAGER' && position.name.toUpperCase() !== 'ATTENDANT') {
-                return res.status(StatusCodes.UNAUTHORIZED).send({ error: 'Usuário não autorizado!' });
+            if (position.name.toUpperCase() !== "MANAGER" && position.name.toUpperCase() !== "ATTENDANT" && position.name.toUpperCase() !== 'ADMIN') {
+                return res.status(StatusCodes.UNAUTHORIZED).format({
+                    "text/html": () => {
+                        res.redirect("/dashboard/employee");
+                    },
+                    "application/json": () => {
+                        res.json({ error: "Usuário não autorizado!" });
+                    },
+                });
             }
 
             next();
         } catch (error) {
             console.error(AppError);
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: 'Erro interno do servidor' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ error: "Erro interno do servidor" });
             next(error);
         }
     }

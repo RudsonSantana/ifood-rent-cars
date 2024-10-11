@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
 import { AppError } from '../../errors/AppError';
 import { encrypt } from '../../helpers/cryptHelper';
 import { StatusCodes } from 'http-status-codes';
+import { employeeFindByIdService } from '../../services/employee_services/EmployeeFindByIdService';
 
-class CompareCustomerPasswordsMiddleware {
+class CompareEmployeePasswordsMiddleware {
     async compare(req: Request, res: Response, next: NextFunction) {
         try {
             const { newPassword, confirmNewPassword } = req.body;
@@ -12,17 +12,17 @@ class CompareCustomerPasswordsMiddleware {
 
             const encryptNewPassword = encrypt(newPassword);
             const encryptConfirmNewPassword= encrypt(confirmNewPassword);
-            const customer = await customerRepository.findById(id);
+            const employee = await employeeFindByIdService.findById(id);
 
             if (newPassword != confirmNewPassword) {
                 res.status(StatusCodes.BAD_REQUEST).json({ error: 'Senha Inválida!' });
             }
 
-            else if (encryptNewPassword === customer.password) {
+            else if (encryptNewPassword === employee.password) {
                 res.status(StatusCodes.BAD_REQUEST).json({ error: 'Senha Inválida!' });
             }
 
-            else if (encryptConfirmNewPassword === customer.password) {
+            else if (encryptConfirmNewPassword === employee.password) {
                 res.status(StatusCodes.BAD_REQUEST).json({ error: 'Senha Inválida!' });
             }
 
@@ -37,6 +37,6 @@ class CompareCustomerPasswordsMiddleware {
     }
 }
 
-const compareCustomerPasswordsMiddleware = new CompareCustomerPasswordsMiddleware();
+const compareEmployeePasswordsMiddleware = new CompareEmployeePasswordsMiddleware();
 
-export { compareCustomerPasswordsMiddleware }
+export { compareEmployeePasswordsMiddleware }
