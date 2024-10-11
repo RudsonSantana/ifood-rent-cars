@@ -1,4 +1,4 @@
-import { IEmployeePosition, IEmployeePositionRepository } from "../../../../app/repositories/employeePositionRepository";
+import { IEmployeePosition, IEmployeePositionRepository } from "../../../../app/interfaces/IemployeePosition";
 import { EmployeePosition } from "../models/employeePosition";
 
 class EmployeePositionRepository implements IEmployeePositionRepository {

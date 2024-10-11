@@ -1,4 +1,4 @@
-import { ICustomerRepository, ICustomer } from '../../../../app/repositories/customerRepository';
+import { ICustomerRepository, ICustomer } from '../../../../app/interfaces/ICustomer';
 import { Customer } from '../models/customer';
 import bcrypt from 'bcrypt';
 import { LicenseCategory } from '../models/licenseCategory';

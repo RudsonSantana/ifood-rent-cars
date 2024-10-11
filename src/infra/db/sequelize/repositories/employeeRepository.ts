@@ -1,4 +1,4 @@
-import { IEmployee, IEmployeeRepository } from '../../../../app/repositories/employeeRepository';
+import { IEmployee, IEmployeeRepository } from '../../../../app/interfaces/IEmployee';
 import { Employee } from '../models/employee';
 import { EmployeePosition } from '../models/employeePosition';
 import { LicenseCategory } from '../models/licenseCategory';

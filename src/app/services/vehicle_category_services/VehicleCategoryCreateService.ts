@@ -1,15 +1,11 @@
 import { vehicleCategoryRepository } from '../../../infra/db/sequelize/repositories/vehicleCategoryRepository';
 import { v4 as uuidv4 } from 'uuid';
-
-export interface VehicleCategoryRequest {
-    id: string,
-    name: string,
-}
+import { IVehicleCategoryRequest } from '../../interfaces/IVehicleCategory';
 
 class VehicleCategoryCreateService {
     async create({
         category
-    }): Promise<VehicleCategoryRequest> {
+    }): Promise<IVehicleCategoryRequest> {
         const upperCaseName = category.toUpperCase();
         const newVehicleCategory = {
             id: uuidv4(),

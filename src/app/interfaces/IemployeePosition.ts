@@ -3,6 +3,11 @@ export interface IEmployeePosition {
     name: string;
 }
 
+export interface IEmployeePositionRequest {
+    id: string,
+    name: string,
+}
+
 export interface IEmployeePositionRepository {
     findAll(): Promise<IEmployeePosition[]>;
     findById(id: string): Promise<IEmployeePosition | null>;

@@ -1,4 +1,4 @@
-import { IVehicle, IVehicleRepository } from '../../../../app/repositories/vehicleRepository';
+import { IVehicle, IVehicleRepository } from '../../../../app/interfaces/IVehicle';
 import { LicenseCategory } from '../models/licenseCategory';
 import { Vehicle, } from '../models/vehicle';
 

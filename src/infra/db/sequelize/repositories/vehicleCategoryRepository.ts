@@ -1,4 +1,4 @@
-import { IVehicleCategory, IVehicleCategoryRepository } from "../../../../app/repositories/vehicleCategoryRepository";
+import { IVehicleCategory, IVehicleCategoryRepository } from "../../../../app/interfaces/IVehicleCategory";
 import { VehicleCategory } from "../models/vehicleCategory";
 
 class VehicleCategoryRepository implements IVehicleCategoryRepository {

@@ -8,6 +8,16 @@ export interface ICustomer {
     licenseCategory: string;
 }
 
+export interface ICustomerRequest {
+    id: string,
+    name: string,
+    cpf: string,
+    email: string,
+    password: string,
+    phone: string,
+    licenseCategory: string
+}
+
 export interface ICustomerRepository {
     findAll(): Promise<ICustomer[]>;
     findById(id: string): Promise<ICustomer | null>;

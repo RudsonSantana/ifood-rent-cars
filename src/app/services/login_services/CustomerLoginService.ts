@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { encrypt } from "../../helpers/cryptHelper";
 import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
-import { LoginRequest } from './ILoginRequest';
+import { LoginRequest } from '../../interfaces/ILoginRequest';
 
 class CustomerLoginService {
   async login({ email, password }: LoginRequest) {

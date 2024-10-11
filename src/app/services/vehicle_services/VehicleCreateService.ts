@@ -1,15 +1,5 @@
 import { vehicleRepository } from "../../../infra/db/sequelize/repositories/vehicleRepository";
-
-export interface VehicleRequest {
-  plate: string;
-  manufacturer: string;
-  model: string;
-  year: number;
-  kilometers: number;
-  category: string;
-  hourlyRate: number;
-  isAvailable: boolean;
-}
+import { IVehicleRequest } from "../../interfaces/IVehicle";
 
 class VehicleCreateService {
 async create({
@@ -22,7 +12,7 @@ async create({
     hourlyRate,
     isAvailable
 
-  }): Promise<VehicleRequest> {
+  }): Promise<IVehicleRequest> {
     const newVehicle = {
       plate,
       manufacturer,

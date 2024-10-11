@@ -9,6 +9,17 @@ export interface IEmployee {
     position: string;
 }
 
+export interface IEmployeeRequest {
+    id: string,
+    name: string,
+    cpf: string,
+    email: string,
+    password: string,
+    phone: string,
+    licenseCategory: string
+    position: string
+}
+
 export interface IEmployeeRepository {
     findAll(): Promise<IEmployee[]>;
     findById(id: string): Promise<IEmployee | null>;

@@ -1,4 +1,4 @@
-import { IRental, IRentalRepository } from '../../../../app/repositories/rentalRepository';
+import { IRental, IRentalRepository } from '../../../../app/interfaces/IRental';
 import { Rental } from '../models/rental';
 
 class RentalRepository implements IRentalRepository {

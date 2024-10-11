@@ -1,5 +1,5 @@
 import { employeeRepository } from '../../../infra/db/sequelize/repositories/employeeRepository';
-import { LoginRequest } from './ILoginRequest';
+import { LoginRequest } from '../../interfaces/ILoginRequest';
 import { encrypt } from "../../helpers/cryptHelper";
 import jwt from 'jsonwebtoken';
 

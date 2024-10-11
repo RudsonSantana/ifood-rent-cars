@@ -2,17 +2,7 @@ import { employeeRepository } from '../../../infra/db/sequelize/repositories/emp
 import { encrypt } from '../../helpers/cryptHelper';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
-
-export interface EmployeeRequest {
-  id: string,
-  name: string,
-  cpf: string,
-  email: string,
-  password: string,
-  phone: string,
-  licenseCategory: string
-  position: string
-}
+import { IEmployeeRequest } from '../../interfaces/IEmployee';
 
 class EmployeeCreateService {
   async create({
@@ -23,7 +13,7 @@ class EmployeeCreateService {
     phone,
     licenseCategory,
     position
-  }): Promise<EmployeeRequest> {
+  }): Promise<IEmployeeRequest> {
     const encryptPassword = encrypt(password);
     const cpfCripto = bcrypt.hashSync(cpf, 11);
     const newEmployee = {

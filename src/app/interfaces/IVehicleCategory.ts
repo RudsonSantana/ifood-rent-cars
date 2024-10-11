@@ -3,6 +3,11 @@ export interface IVehicleCategory {
     name: string;
 }
 
+export interface IVehicleCategoryRequest {
+    id: string,
+    name: string,
+}
+
 export interface IVehicleCategoryRepository {
     findAll(): Promise<IVehicleCategory[]>;
     findById(id: string): Promise<IVehicleCategory | null>;

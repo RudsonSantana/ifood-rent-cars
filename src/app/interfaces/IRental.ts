@@ -1,5 +1,5 @@
-import { ICustomer } from "./customerRepository";
-import { IVehicle } from "./vehicleRepository";
+import { ICustomer } from "./ICustomer";
+import { IVehicle } from "./IVehicle";
 
 export interface IRental {
     id: string;

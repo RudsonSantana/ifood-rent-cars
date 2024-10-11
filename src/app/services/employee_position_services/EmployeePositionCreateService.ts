@@ -1,15 +1,11 @@
 import { employeePositionRepository } from "../../../infra/db/sequelize/repositories/employeePositionRepository"
 import { v4 as uuidv4 } from 'uuid';
-
-export interface EmployeePositionRequest {
-    id: string,
-    name: string,
-}
+import { IEmployeePositionRequest } from "../../interfaces/IemployeePosition";
 
 class EmployeePositionCreateService {
     async create({
         position,
-    }): Promise<EmployeePositionRequest> {
+    }): Promise<IEmployeePositionRequest> {
         const upperCaseName = position.toUpperCase();
         const newEmployeePosition = {
             id: uuidv4(),

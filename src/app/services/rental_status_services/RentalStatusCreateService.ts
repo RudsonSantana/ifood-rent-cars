@@ -1,10 +1,6 @@
 import { rentalStatusRepository } from '../../../infra/db/sequelize/repositories/rentalStatusRepository';
 import { v4 as uuidv4 } from 'uuid';
-
-export interface IRentalStatusRequest {
-    id: string,
-    status: string,
-}
+import { IRentalStatusRequest } from '../../interfaces/IRentalStatus';
 
 class RentalStatusCreateService {
     async create({

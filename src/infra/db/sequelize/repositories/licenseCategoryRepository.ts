@@ -1,4 +1,4 @@
-import { ILicenseCategory, ILicenseCategoryRepository } from "../../../../app/repositories/licenseCategoryRepository";
+import { ILicenseCategory, ILicenseCategoryRepository } from "../../../../app/interfaces/ILicenseCategory";
 import { LicenseCategory } from "../models/licenseCategory";
 
 class LicenseCategoryRepository implements ILicenseCategoryRepository {

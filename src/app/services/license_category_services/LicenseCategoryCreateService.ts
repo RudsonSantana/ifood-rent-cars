@@ -1,15 +1,11 @@
 import { licenseCategoryRepository } from "../../../infra/db/sequelize/repositories/licenseCategoryRepository";
 import { v4 as uuidv4 } from 'uuid';
-
-export interface LicenseCategoryRequest {
-    id: string,
-    name: string,
-}
+import { ILicenseCategoryRequest } from "../../interfaces/ILicenseCategory";
 
 class LicenseCategoryCreateService {
     async create({
         name,
-    }): Promise<LicenseCategoryRequest> {
+    }): Promise<ILicenseCategoryRequest> {
         const newLicenseCategory = {
             id: uuidv4(),
             name

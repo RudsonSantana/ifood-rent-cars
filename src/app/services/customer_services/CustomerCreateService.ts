@@ -2,16 +2,7 @@ import { customerRepository } from '../../../infra/db/sequelize/repositories/cus
 import { encrypt } from '../../helpers/cryptHelper';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
-
-export interface CustomerRequest {
-    id: string,
-    name: string,
-    cpf: string,
-    email: string,
-    password: string,
-    phone: string,
-    licenseCategory: string
-}
+import { ICustomerRequest } from '../../interfaces/ICustomer';
 
 class CustomerCreateService {
     async create({
@@ -21,7 +12,7 @@ class CustomerCreateService {
         password,
         phone,
         licenseCategory
-    }): Promise<CustomerRequest> {
+    }): Promise<ICustomerRequest> {
         const encryptPassword = encrypt(password);
         const cpf_Cripto = bcrypt.hashSync(cpf, 11)
         const newCustomer = {

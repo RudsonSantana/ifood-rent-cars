@@ -3,6 +3,11 @@ export interface IRentalStatus {
     status: string
 }
 
+export interface IRentalStatusRequest {
+    id: string,
+    status: string,
+}
+
 export interface IRentalStatusRepository {
     findAll(): Promise<IRentalStatus[]>;
     findById(id: string): Promise<IRentalStatus | null>;
