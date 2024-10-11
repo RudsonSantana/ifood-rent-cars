@@ -3,8 +3,8 @@ import { encrypt } from "../../helpers/cryptHelper";
 import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
 import { LoginRequest } from './ILoginRequest';
 
-class LoginSignInCustomerService {
-  async signInCustomer({ email, password }: LoginRequest) {
+class CustomerLoginService {
+  async login({ email, password }: LoginRequest) {
     const passwordProvided = encrypt(password)
     const customer = await customerRepository.findByEmail(email);
 
@@ -26,6 +26,6 @@ class LoginSignInCustomerService {
   }
 }
 
-const loginSignInCustomerService = new LoginSignInCustomerService();
+const customerLoginService = new CustomerLoginService();
 
-export { loginSignInCustomerService }
+export { customerLoginService }

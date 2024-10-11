@@ -1,24 +1,24 @@
 import { Router, Request, Response } from 'express';
-import { singInCustomerController } from '../controllers/login_controllers/SingInCustomerController';
+import { customerLoginController } from '../controllers/login_controllers/CustomerLoginController';
 import { customerLoginVerificationMiddleware } from '../middlewares/customer_middlewares/CustomerLoginVerificationMiddleware';
 import path from 'path';
 
-const loginCustomerRoutes = Router();
+const customerLoginRoutes = Router();
 
 //Get
-loginCustomerRoutes.get('/login/customer',
+customerLoginRoutes.get('/login/customer',
     (req: Request, res: Response) => {
         const caminho = path.resolve(__dirname, '..', 'views', 'loginCustomer.ejs');
         res.render(caminho);
     });
 
 //Post
-loginCustomerRoutes.post('/login/customer',
+customerLoginRoutes.post('/login/customer',
     customerLoginVerificationMiddleware.execute,
-    singInCustomerController.signInCustomer,
+    customerLoginController.login,
     (req: Request, res: Response) => {
         res.redirect('/rentals/reserve');
     }
 );
 
-export { loginCustomerRoutes }
+export { customerLoginRoutes }

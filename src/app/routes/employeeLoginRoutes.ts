@@ -1,24 +1,24 @@
 import { Router, Request, Response } from 'express';
-import { singInEmployeeController } from '../controllers/login_controllers/SingInEmployeeController';
+import { employeeLoginController } from '../controllers/login_controllers/EmployeeLoginController';
 import { employeeLoginVerificationMiddleware } from '../middlewares/employee_middlewares/EmployeeLoginVerificationMiddleware';
 import path from 'path';
 
-const loginEmployeeRoutes = Router();
+const employeeLoginRoutes = Router();
 
 //Get 
-loginEmployeeRoutes.get('/login/employee',
+employeeLoginRoutes.get('/login/employee',
     (req: Request, res: Response) => {
         const caminho = path.resolve(__dirname, '..', 'views', 'loginEmployee.ejs');
         res.render(caminho);
     });
 
 //Post
-loginEmployeeRoutes.post('/login/employee',
+employeeLoginRoutes.post('/login/employee',
     employeeLoginVerificationMiddleware.execute,
-    singInEmployeeController.signInEmployee,
+    employeeLoginController.login,
     (req: Request, res: Response) => {
         res.redirect('/dashboard/employee');
     }
 );
 
-export { loginEmployeeRoutes };
+export { employeeLoginRoutes };

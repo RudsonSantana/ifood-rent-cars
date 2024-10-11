@@ -3,8 +3,8 @@ import { LoginRequest } from './ILoginRequest';
 import { encrypt } from "../../helpers/cryptHelper";
 import jwt from 'jsonwebtoken';
 
-class LoginSignInEmployeeService {
-    async signInEmployee({ email, password }: LoginRequest) {
+class EmployeeLoginService {
+    async login({ email, password }: LoginRequest) {
         const passwordProvided = encrypt(password);
         const employee = await employeeRepository.findByEmail(email);
 
@@ -27,6 +27,6 @@ class LoginSignInEmployeeService {
     }
 }
 
-const loginSignInEmployeeService = new LoginSignInEmployeeService();
+const employeeLoginService = new EmployeeLoginService();
 
-export { loginSignInEmployeeService }
+export { employeeLoginService }

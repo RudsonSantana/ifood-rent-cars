@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { vehicleRoutes } from './vehicleRoutes';
 import { rentalRoutes } from './rentalRoutes';
 import { customerRoutes } from './customerRoutes';
-import { loginCustomerRoutes } from './loginCustomerRoutes';
-import { loginEmployeeRoutes } from './loginEmployeeRoutes';
+import { customerLoginRoutes } from './customerLoginRoutes';
+import { employeeLoginRoutes } from './employeeLoginRoutes';
 import { logoutCustomerRoutes } from './logoutCustomerRoutes';
 import { logoutEmployeeRoutes } from './logoutEmployeeRoutes';
 import { employeeRoutes } from './employeeRoutes';
@@ -18,8 +18,8 @@ import { dashboardRoutes } from './dashboardRoutes';
 const routes = Router();
 
 routes.use(
-    loginEmployeeRoutes,
-    loginCustomerRoutes,
+    employeeLoginRoutes,
+    customerLoginRoutes,
     logoutEmployeeRoutes,
     logoutCustomerRoutes,
     passwordCustomerRoutes,
